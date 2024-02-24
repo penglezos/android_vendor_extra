@@ -26,7 +26,7 @@ patches () {
     . build/envsetup.sh
     croot
     
-    PATCHES_PATH=$PWD/patches
+    PATCHES_PATH=$PWD/vendor/extra/patches
 
     for project_name in $(cd "${PATCHES_PATH}"; echo */); do
         project_path="$(tr _ / <<<$project_name)"
