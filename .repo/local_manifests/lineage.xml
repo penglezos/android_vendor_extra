@@ -3,4 +3,9 @@
 	<remote name="github-local" 
 		fetch="https://github.com/" 
 		revision="lineage-21" />
+
+	<!-- Device -->
+	<project path="device/xiaomi/raphael" name="penglezos/device_xiaomi_raphael" remote="github-local" />
+	<project path="vendor/xiaomi/raphael" name="penglezos/vendor_xiaomi_raphael" remote="github-local" />
+	<project path="kernel/xiaomi/raphael" name="penglezos/kernel_xiaomi_raphael" remote="github-local" />
 </manifest>
