@@ -7,6 +7,10 @@
 # Inherit Certification makefile
 $(call inherit-product-if-exists, vendor/certification/config.mk)
 
+# Overlays
+PRODUCT_PACKAGES += \
+    LineageUpdaterOverlay
+
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH)

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2024 Panagiotis Englezos
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- URL's for Updater -->
+    <string name="updater_server_url" translatable="false">https://raw.githubusercontent.com/penglezos/android_vendor_extra/main/ota/raphael.json</string> 
+    <string name="menu_changelog_url" translatable="false">https://github.com/penglezos/device_xiaomi_raphael/releases</string>
+</resources>
