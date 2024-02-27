@@ -1,7 +1,7 @@
-From bdb22c41375eae712511fc19c7b0cfe8b6995c26 Mon Sep 17 00:00:00 2001
+From bcedeb9a6a2a4b8b48138296ba8d38325b6c2442 Mon Sep 17 00:00:00 2001
 From: Thecrazyskull <anaskarbila@gmail.com>
 Date: Fri, 10 Feb 2017 09:38:50 -0500
-Subject: [PATCH 2/2] Trebuchet: Double tap on home screen to turn off screen
+Subject: [PATCH] Trebuchet: Double tap on home screen to turn off screen
 
 This squashes the following commits:
 Author: DennySPB <dennyspb@gmail.com>
@@ -179,5 +179,5 @@ index 96ae4a32fd..2b0acb4621 100644
 +    }
  }
 -- 
-2.43.1
+2.44.0
 
