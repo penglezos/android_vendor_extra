@@ -63,19 +63,19 @@ patches () {
 build () {
     source build/envsetup.sh
     lunch lineage_${DEVICE}-${BUILD_TYPE}
-    make bacon -j$(nproc --all)
+    make bacon
 }
 
 kernel () {
     source build/envsetup.sh
     lunch lineage_${DEVICE}-${BUILD_TYPE}
-    make bootimage -j$(nproc --all)
+    make bootimage
 }
 
 recovery () {
     source build/envsetup.sh
     lunch lineage_${DEVICE}-${BUILD_TYPE}
-    make recoveryimage -j$(nproc --all)
+    make recoveryimage
 }
 
 # Usage information when there are no arguments
