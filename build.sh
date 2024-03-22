@@ -62,19 +62,22 @@ patches () {
 
 build () {
     source build/envsetup.sh
-    lunch lineage_${DEVICE}-${BUILD_TYPE}
+    source $(gettop)/vendor/lineage/vars/aosp_target_release
+    lunch lineage_${DEVICE}-${aosp_target_release}-${BUILD_TYPE}
     make bacon
 }
 
 kernel () {
     source build/envsetup.sh
-    lunch lineage_${DEVICE}-${BUILD_TYPE}
+    source $(gettop)/vendor/lineage/vars/aosp_target_release
+    lunch lineage_${DEVICE}-${aosp_target_release}-${BUILD_TYPE}
     make bootimage
 }
 
 recovery () {
     source build/envsetup.sh
-    lunch lineage_${DEVICE}-${BUILD_TYPE}
+    source $(gettop)/vendor/lineage/vars/aosp_target_release
+    lunch lineage_${DEVICE}-${aosp_target_release}-${BUILD_TYPE}
     make recoveryimage
 }
 
