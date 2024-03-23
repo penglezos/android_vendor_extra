@@ -43,3 +43,6 @@ response=$(jq -n --arg datetime $TIMESTAMP \
 wrapped_response=$(jq -n --argjson response "[$response]" '$ARGS.named')
 
 echo "$wrapped_response" > ../ota/$VERSION/$DEVICE.json
+git add ../ota/$VERSION/$DEVICE.json
+git commit -m "Update json file for $DEVICE-$VERSION-${DATE}"
+git push -f
