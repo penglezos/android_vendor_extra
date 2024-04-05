@@ -1,7 +1,7 @@
-From 78da88400781f71746fa722c2186e3300bdcb4b9 Mon Sep 17 00:00:00 2001
+From 79e10d659b44443a40c1af5c294b6cef9f9d4855 Mon Sep 17 00:00:00 2001
 From: Adithya R <gh0strider.2k18.reborn@gmail.com>
 Date: Sat, 18 Nov 2023 20:08:08 +0530
-Subject: [PATCH 5/8] PIHooks: Allow setting any field in certified build props
+Subject: [PATCH 3/6] PIHooks: Allow setting any field in certified build props
 
 Brand and manufacturer may also be used for attestation checks, as seen
 by _FOR_ATTESTATION fields added in Android 14 [1]. Refactor certified
@@ -88,7 +88,7 @@ index 871edaa66105..0d8b493da740 100644
          try {
              final ActivityTaskManager.RootTaskInfo focusedTask =
 diff --git a/core/res/res/values/lineage_config.xml b/core/res/res/values/lineage_config.xml
-index 52e12ee3829a..c478c80e4aa6 100644
+index b230d000b47f..0c918d986330 100644
 --- a/core/res/res/values/lineage_config.xml
 +++ b/core/res/res/values/lineage_config.xml
 @@ -19,10 +19,14 @@
@@ -111,5 +111,5 @@ index 52e12ee3829a..c478c80e4aa6 100644
      </string-array>
  
 -- 
-2.43.1
+2.44.0
 

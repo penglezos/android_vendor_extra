@@ -1,7 +1,7 @@
-From 99077552c804518523671884faaa0619c53dfc81 Mon Sep 17 00:00:00 2001
+From a8cd120b26dd4841f55840ddbe33f0f8090c79a4 Mon Sep 17 00:00:00 2001
 From: Adithya R <gh0strider.2k18.reborn@gmail.com>
 Date: Fri, 8 Dec 2023 05:59:39 +0530
-Subject: [PATCH 7/8] PIHooks: Set system props for native hook
+Subject: [PATCH 5/6] PIHooks: Set system props for native hook
 
 Relay the spoofed (or not) first API and security patch level to
 native PIHooks.
@@ -53,5 +53,5 @@ index 595afacb9457..848c15013ac9 100644
  
      private static boolean isGmsAddAccountActivityOnTop() {
 -- 
-2.43.1
+2.44.0
 

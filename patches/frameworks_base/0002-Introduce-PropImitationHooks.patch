@@ -1,7 +1,7 @@
-From 29033290ef95c2f8e2206799bc31af7296518ab4 Mon Sep 17 00:00:00 2001
+From a2fa71b562567aba9a247e384f3a1c0eee10f752 Mon Sep 17 00:00:00 2001
 From: Omkar Chandorkar <gotenksIN@aospa.co>
 Date: Thu, 1 Sep 2022 17:18:58 +0530
-Subject: [PATCH 4/8] Introduce PropImitationHooks
+Subject: [PATCH 2/6] Introduce PropImitationHooks
 
 This is a squash of the following commits.
 
@@ -130,10 +130,10 @@ Signed-off-by: penglezos <panagiotisegl@gmail.com>
  create mode 100644 core/res/res/values/lineage_symbols.xml
 
 diff --git a/core/java/android/app/Instrumentation.java b/core/java/android/app/Instrumentation.java
-index e31486f18dbf..535e21216cc4 100644
+index 2162e3a77f15..c297cd00ad43 100644
 --- a/core/java/android/app/Instrumentation.java
 +++ b/core/java/android/app/Instrumentation.java
-@@ -59,6 +59,7 @@ import android.view.Window;
+@@ -61,6 +61,7 @@ import android.view.Window;
  import android.view.WindowManagerGlobal;
  
  import com.android.internal.content.ReferrerIntent;
@@ -141,7 +141,7 @@ index e31486f18dbf..535e21216cc4 100644
  
  import java.io.File;
  import java.lang.annotation.Retention;
-@@ -1281,6 +1282,7 @@ public class Instrumentation {
+@@ -1344,6 +1345,7 @@ public class Instrumentation {
          Application app = getFactory(context.getPackageName())
                  .instantiateApplication(cl, className);
          app.attach(context);
@@ -149,7 +149,7 @@ index e31486f18dbf..535e21216cc4 100644
          return app;
      }
      
-@@ -1298,6 +1300,7 @@ public class Instrumentation {
+@@ -1361,6 +1363,7 @@ public class Instrumentation {
              ClassNotFoundException {
          Application app = (Application)clazz.newInstance();
          app.attach(context);
@@ -345,13 +345,13 @@ index 000000000000..871edaa66105
 +}
 diff --git a/core/res/res/values/lineage_config.xml b/core/res/res/values/lineage_config.xml
 new file mode 100644
-index 000000000000..52e12ee3829a
+index 000000000000..b230d000b47f
 --- /dev/null
 +++ b/core/res/res/values/lineage_config.xml
 @@ -0,0 +1,35 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!--
-+    Copyright 2024 LineageOS
++    Copyright 2023 Paranoid Android
 +
 +    Licensed under the Apache License, Version 2.0 (the "License");
 +    you may not use this file except in compliance with the License.
@@ -386,13 +386,13 @@ index 000000000000..52e12ee3829a
 +</resources>
 diff --git a/core/res/res/values/lineage_symbols.xml b/core/res/res/values/lineage_symbols.xml
 new file mode 100644
-index 000000000000..0debaa580a84
+index 000000000000..256e011b5b20
 --- /dev/null
 +++ b/core/res/res/values/lineage_symbols.xml
 @@ -0,0 +1,24 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<!--
-+    Copyright 2024 LinegeOS
++    Copyright 2023 Paranoid Android
 +
 +    Licensed under the Apache License, Version 2.0 (the "License");
 +    you may not use this file except in compliance with the License.
@@ -415,10 +415,10 @@ index 000000000000..0debaa580a84
 +
 +</resources>
 diff --git a/keystore/java/android/security/keystore2/AndroidKeyStoreSpi.java b/keystore/java/android/security/keystore2/AndroidKeyStoreSpi.java
-index 25f5dec9de40..db528b1f815c 100644
+index 2d8c5a380c6b..6cba0984c3f9 100644
 --- a/keystore/java/android/security/keystore2/AndroidKeyStoreSpi.java
 +++ b/keystore/java/android/security/keystore2/AndroidKeyStoreSpi.java
-@@ -45,6 +45,7 @@ import android.system.keystore2.ResponseCode;
+@@ -48,6 +48,7 @@ import android.system.keystore2.ResponseCode;
  import android.util.Log;
  
  import com.android.internal.annotations.VisibleForTesting;
@@ -426,7 +426,7 @@ index 25f5dec9de40..db528b1f815c 100644
  
  import java.io.ByteArrayInputStream;
  import java.io.IOException;
-@@ -174,6 +175,8 @@ public class AndroidKeyStoreSpi extends KeyStoreSpi {
+@@ -178,6 +179,8 @@ public class AndroidKeyStoreSpi extends KeyStoreSpi {
  
      @Override
      public Certificate[] engineGetCertificateChain(String alias) {
@@ -436,10 +436,10 @@ index 25f5dec9de40..db528b1f815c 100644
  
          if (response == null || response.metadata.certificate == null) {
 diff --git a/services/core/java/com/android/server/wm/ActivityTaskManagerService.java b/services/core/java/com/android/server/wm/ActivityTaskManagerService.java
-index 8382fa97c5c5..d165ed4bb632 100644
+index ad9ac201e22b..a41f355727de 100644
 --- a/services/core/java/com/android/server/wm/ActivityTaskManagerService.java
 +++ b/services/core/java/com/android/server/wm/ActivityTaskManagerService.java
-@@ -256,6 +256,7 @@ import com.android.internal.protolog.common.ProtoLog;
+@@ -260,6 +260,7 @@ import com.android.internal.protolog.common.ProtoLog;
  import com.android.internal.util.ArrayUtils;
  import com.android.internal.util.FastPrintWriter;
  import com.android.internal.util.FrameworkStatsLog;
@@ -447,7 +447,7 @@ index 8382fa97c5c5..d165ed4bb632 100644
  import com.android.internal.util.function.pooled.PooledLambda;
  import com.android.server.LocalManagerRegistry;
  import com.android.server.LocalServices;
-@@ -1959,7 +1960,9 @@ public class ActivityTaskManagerService extends IActivityTaskManager.Stub {
+@@ -1989,7 +1990,9 @@ public class ActivityTaskManagerService extends IActivityTaskManager.Stub {
  
      @Override
      public RootTaskInfo getFocusedRootTaskInfo() throws RemoteException {
@@ -458,7 +458,7 @@ index 8382fa97c5c5..d165ed4bb632 100644
          final long ident = Binder.clearCallingIdentity();
          try {
              synchronized (mGlobalLock) {
-@@ -3068,7 +3071,9 @@ public class ActivityTaskManagerService extends IActivityTaskManager.Stub {
+@@ -3108,7 +3111,9 @@ public class ActivityTaskManagerService extends IActivityTaskManager.Stub {
      /** Sets the task stack listener that gets callbacks when a task stack changes. */
      @Override
      public void registerTaskStackListener(ITaskStackListener listener) {
@@ -470,5 +470,5 @@ index 8382fa97c5c5..d165ed4bb632 100644
      }
  
 -- 
-2.43.1
+2.44.0
 
