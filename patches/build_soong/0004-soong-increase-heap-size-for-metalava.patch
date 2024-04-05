@@ -1,0 +1,25 @@
+From dfa0dd478966311adf49190b9abd33cb1338a1df Mon Sep 17 00:00:00 2001
+From: LeddaZ <leonardoledda@gmail.com>
+Date: Fri, 29 Oct 2021 16:54:04 +0200
+Subject: [PATCH 4/6] soong: increase heap size for metalava
+
+* Fixes building on systems with < 16GB RAM
+---
+ java/droidstubs.go | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/java/droidstubs.go b/java/droidstubs.go
+index e7ccc1ba4..89fab54b9 100644
+--- a/java/droidstubs.go
++++ b/java/droidstubs.go
+@@ -518,6 +518,7 @@ func metalavaCmd(ctx android.ModuleContext, rule *android.RuleBuilder, javaVersi
+ 	cmd.BuiltTool("metalava").ImplicitTool(ctx.Config().HostJavaToolPath(ctx, "metalava.jar")).
+ 		Flag(config.JavacVmFlags).
+ 		Flag(config.MetalavaAddOpens).
++		Flag("-J-Xmx6114m").
+ 		FlagWithArg("--java-source ", javaVersion.String()).
+ 		FlagWithRspFileInputList("@", android.PathForModuleOut(ctx, "metalava.rsp"), srcs).
+ 		FlagWithInput("@", srcJarList)
+-- 
+2.44.0
+

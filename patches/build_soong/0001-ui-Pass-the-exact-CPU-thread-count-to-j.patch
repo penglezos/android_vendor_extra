@@ -1,4 +1,4 @@
-From 154bd2bbd6b87f37a71988fb9256bb3b4edc46d9 Mon Sep 17 00:00:00 2001
+From 9ecd53e1999e8cbffa5d5789b6c4c2b3fba3a239 Mon Sep 17 00:00:00 2001
 From: Park Ju Hyung <qkrwngud825@gmail.com>
 Date: Sat, 31 Oct 2020 19:15:24 +0900
 Subject: [PATCH 1/6] ui: Pass the exact CPU thread count to -j
@@ -14,10 +14,10 @@ Signed-off-by: Park Ju Hyung <qkrwngud825@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/ui/build/config.go b/ui/build/config.go
-index bf4aec9b9..1513231fa 100644
+index 5085c6845..b02cf69d2 100644
 --- a/ui/build/config.go
 +++ b/ui/build/config.go
-@@ -318,7 +318,7 @@ func NewConfig(ctx Context, args ...string) Config {
+@@ -211,7 +211,7 @@ func NewConfig(ctx Context, args ...string) Config {
  	}
  
  	// Default matching ninja
@@ -27,5 +27,5 @@ index bf4aec9b9..1513231fa 100644
  
  	ret.totalRAM = detectTotalRAM(ctx)
 -- 
-2.43.0
+2.44.0
 
