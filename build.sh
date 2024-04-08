@@ -19,13 +19,15 @@ ccache -M 50G
 
 clean () {
     source build/envsetup.sh
-    lunch lineage_${DEVICE}-${BUILD_TYPE}
+    source $(gettop)/vendor/lineage/vars/aosp_target_release
+    lunch lineage_${DEVICE}-${aosp_target_release}-${BUILD_TYPE}
     make clean && rm -rf out
 }
 
 installclean () {
     source build/envsetup.sh
-    lunch lineage_${DEVICE}-${BUILT_TYPE}
+    source $(gettop)/vendor/lineage/vars/aosp_target_release
+    lunch lineage_${DEVICE}-${aosp_target_release}-${BUILD_TYPE}
     make installclean
 }
 
