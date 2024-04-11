@@ -4,11 +4,9 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-# Inherit Certification makefile
-$(call inherit-product-if-exists, vendor/certification/config.mk)
-
 # Overlays
 PRODUCT_PACKAGES += \
+    CertificationOverlay \
     LineageUpdaterOverlay
 
 # Soong namespaces

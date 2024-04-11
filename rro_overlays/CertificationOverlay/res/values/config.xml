@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Build properties from a GMS certified device -->
+    <string-array name="config_certifiedBuildProperties" translatable="false">
+        <item>BRAND:motorola</item> <!-- Build.BRAND -->
+        <item>MANUFACTURER:motorola</item> <!-- Build.MANUFACTURER -->
+        <item></item> <!-- Build.ID -->
+        <item>DEVICE:griffin</item> <!-- Build.DEVICE -->
+        <item>PRODUCT:griffin_retcn</item> <!-- Build.PRODUCT -->
+        <item>MODEL:XT1650-05</item> <!-- Build.MODEL -->
+        <item>FINGERPRINT:motorola/griffin_retcn/griffin:6.0.1/MCC24.246-37/42:user/release-keys</item> <!-- Build.FINGERPRINT -->
+        <item></item> <!-- Build.TYPE -->
+        <item>TAGS:MCC24.246-37</item> <!-- Build.TAGS -->
+        <item>SECURITY_PATCH:2016-07-01</item> <!-- Build.SECURITY_PATCH -->
+        <item></item> <!-- Build.DEVICE_INITIAL_SDK_INT -->
+    </string-array>
+</resources>

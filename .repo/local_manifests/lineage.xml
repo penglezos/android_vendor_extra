@@ -14,5 +14,4 @@
 	
 	<!-- Vendor extras -->
 	<project path="vendor/extra" name="penglezos/android_vendor_extra" remote="github-local" revision="main" />
-	<project path="vendor/certification" name="penglezos/android_vendor_certification" remote="github-local" />
 </manifest>
