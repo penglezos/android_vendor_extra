@@ -1,4 +1,4 @@
-From 319a0170010e9b209e9a68a4fb110573d6e03918 Mon Sep 17 00:00:00 2001
+From 65b9adb85dcfa124a5d3de6a132e0266aee78ef3 Mon Sep 17 00:00:00 2001
 From: Adithya R <gh0strider.2k18.reborn@gmail.com>
 Date: Fri, 29 Mar 2024 12:17:41 +0530
 Subject: [PATCH 6/6] PIHooks: Hide pixel sysconfig features from Google Photos
