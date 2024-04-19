@@ -87,9 +87,9 @@ recovery () {
 if [[ $# -eq 0 ]]; then
 	echo -e "\nUsage: ./build.sh [options]\n"
 	echo "Options:"
-    echo "  -c, --clean                    Clean entire build directory"
-    echo "  -i, --installclean             Dirty build"
-    echo "  -z, --zram                     Setup ZRAM"
+	echo "  -c, --clean                    Clean entire build directory"
+	echo "  -i, --installclean             Dirty build"
+	echo "  -z, --zram                     Setup ZRAM"
 	echo "  -s, --sync                     Sync ROM and device sources"
 	echo "  -p, --patches                  Apply patches"
 	echo "  -b, --build                    Perform ROM build"
