@@ -1,7 +1,7 @@
-From 65b9adb85dcfa124a5d3de6a132e0266aee78ef3 Mon Sep 17 00:00:00 2001
+From 262b7a13706366fe00d9f045fdd35235afe7bb78 Mon Sep 17 00:00:00 2001
 From: Adithya R <gh0strider.2k18.reborn@gmail.com>
 Date: Fri, 29 Mar 2024 12:17:41 +0530
-Subject: [PATCH 6/6] PIHooks: Hide pixel sysconfig features from Google Photos
+Subject: [PATCH 6/7] PIHooks: Hide pixel sysconfig features from Google Photos
 
 Photos checks the device model in addition to system features for
 enabling unlimited photos backup. On non-pixels with the pixel
