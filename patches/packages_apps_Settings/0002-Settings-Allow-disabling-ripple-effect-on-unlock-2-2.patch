@@ -1,7 +1,7 @@
 From 2824eab09bb89abf2849660d827a8dcbf33da276 Mon Sep 17 00:00:00 2001
 From: Pranav Vashi <neobuddy89@gmail.com>
 Date: Sun, 30 Jan 2022 16:42:04 +0530
-Subject: [PATCH 2/2] Settings: Allow disabling ripple effect on unlock [2/2]
+Subject: [PATCH 2/3] Settings: Allow disabling ripple effect on unlock [2/2]
 
 Change-Id: I8323a23495279f5ede1eea6eeeea3ec9c9b14d1a
 Signed-off-by: penglezos <panagiotisegl@gmail.com>

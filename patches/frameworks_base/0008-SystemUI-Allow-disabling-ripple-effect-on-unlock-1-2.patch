@@ -1,7 +1,7 @@
 From b40bf496f32f6a85592d2de128ef1eb5aeda7f13 Mon Sep 17 00:00:00 2001
 From: Rishawn <70256146+Stealth1226@users.noreply.github.com>
 Date: Mon, 10 Jan 2022 09:47:15 +0530
-Subject: [PATCH 8/8] SystemUI: Allow disabling ripple effect on unlock [1/2]
+Subject: [PATCH 8/9] SystemUI: Allow disabling ripple effect on unlock [1/2]
 
 Squashed:
 
