@@ -1,0 +1,208 @@
+From b40bf496f32f6a85592d2de128ef1eb5aeda7f13 Mon Sep 17 00:00:00 2001
+From: Rishawn <70256146+Stealth1226@users.noreply.github.com>
+Date: Mon, 10 Jan 2022 09:47:15 +0530
+Subject: [PATCH 8/8] SystemUI: Allow disabling ripple effect on unlock [1/2]
+
+Squashed:
+
+Author: Nauval Rizky <enuma.alrizky@gmail.com>
+Date:   Wed Jan 19 08:31:56 2022 +0700
+
+    SystemUI: Fix method for disabling unlock ripple animation
+
+    NotificationShadeWindowController's are not gracefully closed, which
+    leads to top parts of the screen is being obscured by invisible shade window.
+    And also, "ripple" is actually still exists due to lightRevealScrim are
+    being started by onKeyguardFadingAwayChanged, which is not what user expect
+    when they want to disable the effect.
+
+    So in order to handle those cases, lets intercept it from the
+    AuthRippleController instead.
+
+    [palaych] With system settings we need to pass UserHandle.USER_CURRENT to make sure we are getting proper value.
+
+    Change-Id: I85ab96368c8b0099700f3de18ba95ce63eaac443
+
+Author: Adithya R <gh0strider.2k18.reborn@gmail.com>
+Date:   Fri Oct 27 07:08:57 2023 +0530
+
+    SystemUI: Disable wakeup animations when unlocking with fingerprint
+
+    If the ripple animation is disabled it makes sense to disable these too.
+
+    Change-Id: I44542796acdb1dfa2fd7626b0a69386da499da2c
+
+Author: Adithya R <gh0strider.2k18.reborn@gmail.com>
+Date:   Sat Nov 11 08:58:07 2023 +0530
+
+    SystemUI: Disable keyguard unlock to launcher animation if...
+
+    ...if the user disabled "Unlock animation" aka auth ripple.
+
+    Change-Id: I824d9434bec0a577686e9365d54154f947167398
+
+Co-authored-by: Nauval Rizky <enuma.alrizky@gmail.com>
+Change-Id: Idecaa59547159d0a2b0ecdb55a207377bd466710
+[ghostrider-reborn: use more appropriate setting name]
+Signed-off-by: Adithya R <gh0strider.2k18.reborn@gmail.com>
+Signed-off-by: penglezos <panagiotisegl@gmail.com>
+---
+ core/java/android/provider/Settings.java         |  6 ++++++
+ .../systemui/biometrics/AuthRippleController.kt  | 16 ++++++++++++++++
+ .../KeyguardUnlockAnimationController.kt         |  9 ++++++++-
+ .../NotificationShadeDepthController.kt          |  9 ++++++++-
+ .../statusbar/phone/CentralSurfacesImpl.java     |  5 +++++
+ 5 files changed, 43 insertions(+), 2 deletions(-)
+
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index 67e22ed3a7c7..5125f1057e1d 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -6101,6 +6101,12 @@ public final class Settings {
+          */
+         public static final String NOTIFICATION_SOUND_VIB_SCREEN_ON = "notification_sound_vib_screen_on";
+ 
++        /**
++         * Whether to show the ripple animation on fingerprint unlock
++         * @hide
++         */
++        public static final String AUTH_RIPPLE_ENABLED = "auth_ripple_enabled";
++
+         /**
+          * Keys we no longer back up under the current schema, but want to continue to
+          * process when restoring historical backup datasets.
+diff --git a/packages/SystemUI/src/com/android/systemui/biometrics/AuthRippleController.kt b/packages/SystemUI/src/com/android/systemui/biometrics/AuthRippleController.kt
+index 634531215002..bedfd4ca7332 100644
+--- a/packages/SystemUI/src/com/android/systemui/biometrics/AuthRippleController.kt
++++ b/packages/SystemUI/src/com/android/systemui/biometrics/AuthRippleController.kt
+@@ -23,6 +23,8 @@ import android.content.Context
+ import android.graphics.Point
+ import android.hardware.biometrics.BiometricFingerprintConstants
+ import android.hardware.biometrics.BiometricSourceType
++import android.os.UserHandle
++import android.provider.Settings
+ import android.util.DisplayMetrics
+ import androidx.annotation.VisibleForTesting
+ import com.android.app.animation.Interpolators
+@@ -96,6 +98,10 @@ class AuthRippleController @Inject constructor(
+     private var udfpsController: UdfpsController? = null
+     private var udfpsRadius: Float = -1f
+ 
++    private val isRippleEnabled: Boolean
++        get() = Settings.System.getIntForUser(context.contentResolver,
++            Settings.System.AUTH_RIPPLE_ENABLED, 1, UserHandle.USER_CURRENT) == 1
++
+     override fun start() {
+         init()
+     }
+@@ -187,6 +193,8 @@ class AuthRippleController @Inject constructor(
+     }
+ 
+     private fun showUnlockedRipple() {
++        if (!isRippleEnabled) return
++
+         notificationShadeWindowController.setForcePluginOpen(true, this)
+ 
+         // This code path is not used if the KeyguardTransitionRepository is managing the light
+@@ -214,6 +222,14 @@ class AuthRippleController @Inject constructor(
+             return
+         }
+ 
++        if (!isRippleEnabled) {
++            // reset and hide the scrim so it doesn't appears on
++            // the next notification shade usage
++            lightRevealScrim.revealAmount = 1f
++            startLightRevealScrimOnKeyguardFadingAway = false
++            return
++        }
++
+         if (keyguardStateController.isKeyguardFadingAway) {
+             if (startLightRevealScrimOnKeyguardFadingAway) {
+                 lightRevealScrimAnimator?.cancel()
+diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardUnlockAnimationController.kt b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardUnlockAnimationController.kt
+index 01ba0d214a97..ab7d4f8d2494 100644
+--- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardUnlockAnimationController.kt
++++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardUnlockAnimationController.kt
+@@ -27,6 +27,8 @@ import android.os.DeadObjectException
+ import android.os.Handler
+ import android.os.PowerManager
+ import android.os.RemoteException
++import android.os.UserHandle
++import android.provider.Settings
+ import android.util.Log
+ import android.view.RemoteAnimationTarget
+ import android.view.SurfaceControl
+@@ -330,6 +332,10 @@ class KeyguardUnlockAnimationController @Inject constructor(
+ 
+     private val tmpFloat = FloatArray(9)
+ 
++    private val isRippleEnabled: Boolean
++        get() = Settings.System.getIntForUser(context.contentResolver,
++            Settings.System.AUTH_RIPPLE_ENABLED, 1, UserHandle.USER_CURRENT) == 1
++
+     init {
+         with(surfaceBehindAlphaAnimator) {
+             duration = surfaceBehindFadeOutDurationMs()
+@@ -424,7 +430,8 @@ class KeyguardUnlockAnimationController @Inject constructor(
+                 // If the launcher is underneath, but we're about to launch an activity, don't do
+                 // the animations since they won't be visible.
+                 !notificationShadeWindowController.isLaunchingActivity &&
+-                launcherUnlockController != null
++                launcherUnlockController != null &&
++                !(biometricUnlockControllerLazy.get().isWakeAndUnlock && !isRippleEnabled)
+     }
+ 
+     /**
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/NotificationShadeDepthController.kt b/packages/SystemUI/src/com/android/systemui/statusbar/NotificationShadeDepthController.kt
+index 5c45f3d1bbc8..39d539431bdc 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/NotificationShadeDepthController.kt
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/NotificationShadeDepthController.kt
+@@ -23,6 +23,8 @@ import android.content.Context
+ import android.content.res.Configuration
+ import android.os.SystemClock
+ import android.os.Trace
++import android.os.UserHandle
++import android.provider.Settings
+ import android.util.IndentingPrintWriter
+ import android.util.Log
+ import android.util.MathUtils
+@@ -93,6 +95,10 @@ class NotificationShadeDepthController @Inject constructor(
+     private var listeners = mutableListOf<DepthListener>()
+     private var inSplitShade: Boolean = false
+ 
++    private val isAuthRippleEnabled: Boolean
++        get() = Settings.System.getIntForUser(context.contentResolver,
++            Settings.System.AUTH_RIPPLE_ENABLED, 1, UserHandle.USER_CURRENT) == 1
++
+     private var prevTracking: Boolean = false
+     private var prevTimestamp: Long = -1
+     private var prevShadeDirection = 0
+@@ -256,7 +262,8 @@ class NotificationShadeDepthController @Inject constructor(
+     private val keyguardStateCallback = object : KeyguardStateController.Callback {
+         override fun onKeyguardFadingAwayChanged() {
+             if (!keyguardStateController.isKeyguardFadingAway ||
+-                    biometricUnlockController.mode != MODE_WAKE_AND_UNLOCK) {
++                    biometricUnlockController.mode != MODE_WAKE_AND_UNLOCK ||
++                    !isAuthRippleEnabled) {
+                 return
+             }
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java
+index 73b95114b005..4f30f07906c9 100644
+--- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java
++++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java
+@@ -2836,6 +2836,11 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
+ 
+         mScrimController.setExpansionAffectsAlpha(!unlocking);
+ 
++        boolean authRippleEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
++                Settings.System.AUTH_RIPPLE_ENABLED, 1, UserHandle.USER_CURRENT) == 1;
++        mScrimController.setLaunchingAffordanceWithPreview(!authRippleEnabled
++                && mBiometricUnlockController.isWakeAndUnlock());
++
+         if (mAlternateBouncerInteractor.isVisibleState()) {
+             if (!DeviceEntryUdfpsRefactor.isEnabled()) {
+                 if ((!mKeyguardStateController.isOccluded() || mShadeSurface.isPanelExpanded())
+-- 
+2.44.0
+

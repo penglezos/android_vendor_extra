@@ -1,0 +1,46 @@
+From 2824eab09bb89abf2849660d827a8dcbf33da276 Mon Sep 17 00:00:00 2001
+From: Pranav Vashi <neobuddy89@gmail.com>
+Date: Sun, 30 Jan 2022 16:42:04 +0530
+Subject: [PATCH 2/2] Settings: Allow disabling ripple effect on unlock [2/2]
+
+Change-Id: I8323a23495279f5ede1eea6eeeea3ec9c9b14d1a
+Signed-off-by: penglezos <panagiotisegl@gmail.com>
+---
+ res/values/lineage_strings.xml            | 4 ++++
+ res/xml/security_settings_fingerprint.xml | 6 ++++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/res/values/lineage_strings.xml b/res/values/lineage_strings.xml
+index 2bf54e5efeb..cb92a9b83d3 100644
+--- a/res/values/lineage_strings.xml
++++ b/res/values/lineage_strings.xml
+@@ -19,4 +19,8 @@
+     <!-- Notification while screen on -->
+     <string name="notification_sound_vib_screen_on_title">Notification while screen on</string>
+     <string name="notification_sound_vib_screen_on_summary">Play sound and vibration for notifications when the screen is on</string>
++
++    <!-- Fingerprint Ripple Effect -->
++    <string name="enable_fingerprint_ripple_effect_title">Ripple effect</string>
++    <string name="enable_fingerprint_ripple_effect_summary">Show ripple effect on unlock with fingerprint</string>
+ </resources>
+\ No newline at end of file
+diff --git a/res/xml/security_settings_fingerprint.xml b/res/xml/security_settings_fingerprint.xml
+index 0156ef97ac6..af2b4ede7b9 100644
+--- a/res/xml/security_settings_fingerprint.xml
++++ b/res/xml/security_settings_fingerprint.xml
+@@ -41,6 +41,12 @@
+             android:summary="@string/security_settings_require_screen_on_to_auth_description"
+             settings:keywords="@string/security_settings_require_screen_on_to_auth_keywords"
+             settings:controller="com.android.settings.biometrics.fingerprint.FingerprintSettingsRequireScreenOnToAuthPreferenceController" />
++
++        <lineageos.preference.LineageSystemSettingSwitchPreference
++            android:key="enable_ripple_effect"
++            android:title="@string/enable_fingerprint_ripple_effect_title"
++            android:summary="@string/enable_fingerprint_ripple_effect_summary"
++            android:defaultValue="true" />
+     </PreferenceCategory>
+ 
+     <PreferenceCategory
+-- 
+2.44.0
+
