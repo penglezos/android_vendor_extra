@@ -1,7 +1,7 @@
-From 0ce9a1b9190354281932e41de87bf82b928b863d Mon Sep 17 00:00:00 2001
+From ae0a1af55c17abed0f4a2f67e5d07b7846f2fcb4 Mon Sep 17 00:00:00 2001
 From: Adithya R <gh0strider.2k18.reborn@gmail.com>
 Date: Fri, 8 Dec 2023 05:59:39 +0530
-Subject: [PATCH 5/9] PIHooks: Set system props for native hook
+Subject: [PATCH 4/9] PIHooks: Set system props for native hook
 
 Relay the spoofed (or not) first API and security patch level to
 native PIHooks.

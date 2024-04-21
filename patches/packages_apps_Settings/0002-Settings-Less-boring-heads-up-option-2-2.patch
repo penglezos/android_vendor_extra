@@ -1,7 +1,7 @@
-From e0286d95705f7fd0e40630bfdfc14326d686dd2c Mon Sep 17 00:00:00 2001
+From ca1baa75a2fbc3b407715849d7786391e011627d Mon Sep 17 00:00:00 2001
 From: ezio84 <brabus84@gmail.com>
 Date: Tue, 3 Dec 2019 23:39:53 +0100
-Subject: [PATCH 3/3] Settings: Less boring heads up option [2/2]
+Subject: [PATCH 2/3] Settings: Less boring heads up option [2/2]
 
 Change-Id: Ic6a2fae172d43149e426b837dfb6531c55730bf0
 [ghostrider-reborn: depend on global setting]
@@ -13,7 +13,7 @@ Signed-off-by: penglezos <panagiotisegl@gmail.com>
  2 files changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/res/values/lineage_strings.xml b/res/values/lineage_strings.xml
-index cb92a9b83d3..0a6db362c34 100644
+index 2bf54e5efeb..3cdf8fd3978 100644
 --- a/res/values/lineage_strings.xml
 +++ b/res/values/lineage_strings.xml
 @@ -16,6 +16,10 @@

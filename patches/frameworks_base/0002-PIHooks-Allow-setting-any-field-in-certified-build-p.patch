@@ -1,7 +1,7 @@
-From 884701d20c2ced5c729e8e47da65a9b20246dd35 Mon Sep 17 00:00:00 2001
+From 483c7bd329c96288d5d97bcd9b4dbeedf3af804b Mon Sep 17 00:00:00 2001
 From: Adithya R <gh0strider.2k18.reborn@gmail.com>
 Date: Sat, 18 Nov 2023 20:08:08 +0530
-Subject: [PATCH 3/9] PIHooks: Allow setting any field in certified build props
+Subject: [PATCH 2/9] PIHooks: Allow setting any field in certified build props
 
 Brand and manufacturer may also be used for attestation checks, as seen
 by _FOR_ATTESTATION fields added in Android 14 [1]. Refactor certified

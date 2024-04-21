@@ -1,4 +1,4 @@
-From b54f5f75536c80919121161073fecb2161672172 Mon Sep 17 00:00:00 2001
+From 78d640280f9383e593c40c108dcd20cb1166584f Mon Sep 17 00:00:00 2001
 From: ezio84 <brabus84@gmail.com>
 Date: Sun, 16 Jan 2022 13:20:36 +0400
 Subject: [PATCH 7/9] Allow to suppress notifications sound/vibration if screen

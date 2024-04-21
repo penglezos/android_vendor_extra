@@ -1,7 +1,7 @@
-From 0546fb5cd2010eb72f54fcafe4cfb89de910922b Mon Sep 17 00:00:00 2001
+From a4073cabdbdfb191069a78f6beb127636d52f40f Mon Sep 17 00:00:00 2001
 From: ezio84 <brabus84@gmail.com>
 Date: Fri, 26 Jul 2019 12:45:22 +0300
-Subject: [PATCH 9/9] SystemUI: Less boring heads up option [1/2]
+Subject: [PATCH 8/9] SystemUI: Less boring heads up option [1/2]
 
 Q: don't skip the new Bubbles (the circular popping up notifications
 like the Dialer one when a call is active and you press the home button)
@@ -29,7 +29,7 @@ Signed-off-by: penglezos <panagiotisegl@gmail.com>
  3 files changed, 59 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 5125f1057e1d..797f40fd0e84 100644
+index 67e22ed3a7c7..a06c134cb263 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
 @@ -6086,6 +6086,12 @@ public final class Settings {

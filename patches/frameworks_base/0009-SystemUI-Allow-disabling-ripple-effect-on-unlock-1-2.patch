@@ -1,7 +1,7 @@
-From b40bf496f32f6a85592d2de128ef1eb5aeda7f13 Mon Sep 17 00:00:00 2001
+From 52aa5cf7f602659db15c0e099d1be19632d6fb31 Mon Sep 17 00:00:00 2001
 From: Rishawn <70256146+Stealth1226@users.noreply.github.com>
 Date: Mon, 10 Jan 2022 09:47:15 +0530
-Subject: [PATCH 8/9] SystemUI: Allow disabling ripple effect on unlock [1/2]
+Subject: [PATCH 9/9] SystemUI: Allow disabling ripple effect on unlock [1/2]
 
 Squashed:
 
@@ -55,10 +55,10 @@ Signed-off-by: penglezos <panagiotisegl@gmail.com>
  5 files changed, 43 insertions(+), 2 deletions(-)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 67e22ed3a7c7..5125f1057e1d 100644
+index a06c134cb263..797f40fd0e84 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -6101,6 +6101,12 @@ public final class Settings {
+@@ -6107,6 +6107,12 @@ public final class Settings {
           */
          public static final String NOTIFICATION_SOUND_VIB_SCREEN_ON = "notification_sound_vib_screen_on";
  
