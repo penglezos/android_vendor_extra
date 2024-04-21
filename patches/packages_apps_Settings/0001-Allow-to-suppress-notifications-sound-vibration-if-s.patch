@@ -1,10 +1,10 @@
-From ce30acfc133d3bf8d21d259228a19ec306956c09 Mon Sep 17 00:00:00 2001
+From 98c8c4b22d97e0f913f262d1139fa704225e937a Mon Sep 17 00:00:00 2001
 From: ezio84 <brabus84@gmail.com>
 Date: Tue, 3 Dec 2019 23:39:53 +0100
-Subject: [PATCH] Settings: Allow to suppress notifications sound/vibration if
- screen is ON [2/2]
+Subject: [PATCH] Allow to suppress notifications sound/vibration if screen  is
+ ON [2/2]
 
-Change-Id: I07c60670b43195a5680fdc0497d0326d1f56ea2f
+Change-Id: I2267ba223d0307c200520706f6588a0eff733ca0
 Signed-off-by: penglezos <panagiotisegl@gmail.com>
 ---
  res/values/lineage_strings.xml              | 22 +++++++++++++++++++++
@@ -14,7 +14,7 @@ Signed-off-by: penglezos <panagiotisegl@gmail.com>
 
 diff --git a/res/values/lineage_strings.xml b/res/values/lineage_strings.xml
 new file mode 100644
-index 00000000000..1f97e4f6a48
+index 00000000000..2bf54e5efeb
 --- /dev/null
 +++ b/res/values/lineage_strings.xml
 @@ -0,0 +1,22 @@
@@ -40,8 +40,9 @@ index 00000000000..1f97e4f6a48
 +    <string name="notification_sound_vib_screen_on_title">Notification while screen on</string>
 +    <string name="notification_sound_vib_screen_on_summary">Play sound and vibration for notifications when the screen is on</string>
 +</resources>
+\ No newline at end of file
 diff --git a/res/xml/configure_notification_settings.xml b/res/xml/configure_notification_settings.xml
-index 8f28c37579c..349bc20fae3 100644
+index 8f28c37579c..18a6361753d 100644
 --- a/res/xml/configure_notification_settings.xml
 +++ b/res/xml/configure_notification_settings.xml
 @@ -111,6 +111,13 @@
@@ -49,7 +50,7 @@ index 8f28c37579c..349bc20fae3 100644
          android:key="advanced_section_header"
          android:title="@string/advanced_section_header">
 +
-+       <com.android.settings.custom.preference.SystemSettingSwitchPreference
++       <lineageos.preference.LineageSystemSettingSwitchPreference
 +            android:key="notification_sound_vib_screen_on"
 +            android:title="@string/notification_sound_vib_screen_on_title"
 +            android:summary="@string/notification_sound_vib_screen_on_summary"
