@@ -1,0 +1,244 @@
+From 70ecd6397bd2f9a96adfbb0f3d517c92498a0a54 Mon Sep 17 00:00:00 2001
+From: penglezos <panagiotisegl@gmail.com>
+Date: Tue, 23 Apr 2024 19:59:57 +0300
+Subject: [PATCH 8/8] SystemUI: Require screen unlock to use sensitive QS tiles
+
+Mark the following tiles as sensitive and require screen unlock to use them:
+
+- Airplane mode
+- Battery saver
+- Bluetooth
+- Cellular
+- Data saver
+- Device Controls
+- Dnd
+- Hotspot
+- Internet (both old and new implementations)
+- Nfc
+- Wifi
+- Work mode
+
+Change-Id: I13fe5d2d85a2cb98ef4bec0b25073439ec18eeda
+Signed-off-by: penglezos <panagiotisegl@gmail.com>
+---
+ .../src/com/android/systemui/qs/tiles/AirplaneModeTile.java | 5 +++++
+ .../src/com/android/systemui/qs/tiles/BatterySaverTile.java | 5 +++++
+ .../src/com/android/systemui/qs/tiles/BluetoothTile.java    | 5 +++++
+ .../src/com/android/systemui/qs/tiles/CellularTile.java     | 5 +++++
+ .../src/com/android/systemui/qs/tiles/DataSaverTile.java    | 6 ++++++
+ .../src/com/android/systemui/qs/tiles/DeviceControlsTile.kt | 2 ++
+ .../SystemUI/src/com/android/systemui/qs/tiles/DndTile.java | 5 +++++
+ .../src/com/android/systemui/qs/tiles/HotspotTile.java      | 5 +++++
+ .../src/com/android/systemui/qs/tiles/InternetTile.java     | 5 +++++
+ .../com/android/systemui/qs/tiles/InternetTileNewImpl.kt    | 2 ++
+ .../SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java | 5 +++++
+ .../src/com/android/systemui/qs/tiles/WifiTile.java         | 5 +++++
+ .../src/com/android/systemui/qs/tiles/WorkModeTile.java     | 5 +++++
+ 13 files changed, 60 insertions(+)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/AirplaneModeTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/AirplaneModeTile.java
+index 17251c37473f..7ac630a16c8e 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/AirplaneModeTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/AirplaneModeTile.java
+@@ -102,6 +102,11 @@ public class AirplaneModeTile extends QSTileImpl<BooleanState> {
+         return new BooleanState();
+     }
+ 
++    @Override
++    public boolean isAllowedWhenLocked(QSTileImpl.Action action) {
++        return false;
++    }
++
+     @Override
+     public void handleClick(@Nullable View view) {
+         boolean airplaneModeEnabled = mState.value;
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/BatterySaverTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/BatterySaverTile.java
+index 426aa553f082..595f96a92c43 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/BatterySaverTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/BatterySaverTile.java
+@@ -130,6 +130,11 @@ public class BatterySaverTile extends QSTileImpl<BooleanState> implements
+         return new Intent(Settings.ACTION_BATTERY_SAVER_SETTINGS);
+     }
+ 
++    @Override
++    public boolean isAllowedWhenLocked(QSTileImpl.Action action) {
++        return false;
++    }
++
+     @Override
+     protected void handleClick(@Nullable View view) {
+         if (getState().state == Tile.STATE_UNAVAILABLE) {
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/BluetoothTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/BluetoothTile.java
+index 18d2f306c247..fbd5c39dec6a 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/BluetoothTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/BluetoothTile.java
+@@ -108,6 +108,11 @@ public class BluetoothTile extends QSTileImpl<BooleanState> {
+         return new BooleanState();
+     }
+ 
++    @Override
++    public boolean isAllowedWhenLocked(QSTileImpl.Action action) {
++        return false;
++    }
++
+     @Override
+     protected void handleClick(@Nullable View view) {
+         if (mFeatureFlags.isEnabled(Flags.BLUETOOTH_QS_TILE_DIALOG)) {
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
+index b7bd55d03467..926df811311e 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/CellularTile.java
+@@ -111,6 +111,11 @@ public class CellularTile extends QSTileImpl<BooleanState> {
+         return getCellularSettingIntent();
+     }
+ 
++    @Override
++    public boolean isAllowedWhenLocked(QSTileImpl.Action action) {
++        return false;
++    }
++
+     @Override
+     protected void handleClick(@Nullable View view) {
+         if (getState().state == Tile.STATE_UNAVAILABLE) {
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/DataSaverTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/DataSaverTile.java
+index ccf7afbe7016..32158f35811c 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/DataSaverTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/DataSaverTile.java
+@@ -86,6 +86,12 @@ public class DataSaverTile extends QSTileImpl<BooleanState> implements
+     public Intent getLongClickIntent() {
+         return new Intent(Settings.ACTION_DATA_SAVER_SETTINGS);
+     }
++
++    @Override
++    public boolean isAllowedWhenLocked(QSTileImpl.Action action) {
++        return false;
++    }
++
+     @Override
+     protected void handleClick(@Nullable View view) {
+         if (mState.value
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/DeviceControlsTile.kt b/packages/SystemUI/src/com/android/systemui/qs/tiles/DeviceControlsTile.kt
+index 91b2d971c004..eb2ab8d8bf30 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/DeviceControlsTile.kt
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/DeviceControlsTile.kt
+@@ -100,6 +100,8 @@ class DeviceControlsTile @Inject constructor(
+         }
+     }
+ 
++    override fun isAllowedWhenLocked(action: Action) = false
++
+     override fun handleClick(view: View?) {
+         if (state.state == Tile.STATE_UNAVAILABLE) {
+             return
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java
+index f6518d1e8023..bac88b6f94a4 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java
+@@ -146,6 +146,11 @@ public class DndTile extends QSTileImpl<BooleanState> {
+         return ZEN_SETTINGS;
+     }
+ 
++    @Override
++    public boolean isAllowedWhenLocked(QSTileImpl.Action action) {
++        return false;
++    }
++
+     @Override
+     protected void handleClick(@Nullable View view) {
+         // Zen is currently on
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/HotspotTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/HotspotTile.java
+index 9ee417e98d2d..267184b96063 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/HotspotTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/HotspotTile.java
+@@ -111,6 +111,11 @@ public class HotspotTile extends QSTileImpl<BooleanState> {
+         return new BooleanState();
+     }
+ 
++    @Override
++    public boolean isAllowedWhenLocked(QSTileImpl.Action action) {
++        return false;
++    }
++
+     @Override
+     protected void handleClick(@Nullable View view) {
+         final boolean isEnabled = mState.value;
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTile.java
+index 8bc836bb4323..675c553c45c1 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTile.java
+@@ -123,6 +123,11 @@ public class InternetTile extends QSTileImpl<QSTile.BooleanState> {
+         return WIFI_SETTINGS;
+     }
+ 
++    @Override
++    public boolean isAllowedWhenLocked(QSTileImpl.Action action) {
++        return false;
++    }
++
+     @Override
+     protected void handleClick(@Nullable View view) {
+         mHandler.post(() -> mInternetDialogFactory.create(true,
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTileNewImpl.kt b/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTileNewImpl.kt
+index 13271c32c52f..f914ea1c43f1 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTileNewImpl.kt
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTileNewImpl.kt
+@@ -84,6 +84,8 @@ constructor(
+         return QSTile.BooleanState().also { it.forceExpandIcon = true }
+     }
+ 
++    override fun isAllowedWhenLocked(action: Action) = false
++
+     override fun handleClick(view: View?) {
+         mainHandler.post {
+             internetDialogFactory.create(
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java
+index e8a9a395bb82..b4cfedd4acf8 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java
+@@ -119,6 +119,11 @@ public class NfcTile extends QSTileImpl<BooleanState> {
+         return new Intent(Settings.ACTION_NFC_SETTINGS);
+     }
+ 
++    @Override
++    public boolean isAllowedWhenLocked(QSTileImpl.Action action) {
++        return false;
++    }
++
+     @Override
+     protected void handleClick(@Nullable View view) {
+         if (getAdapter() == null) {
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/WifiTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/WifiTile.java
+index 55a0bdaccb5d..bb11da0aded2 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/WifiTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/WifiTile.java
+@@ -102,6 +102,11 @@ public class WifiTile extends QSTileImpl<BooleanState> {
+         return WIFI_SETTINGS;
+     }
+ 
++    @Override
++    public boolean isAllowedWhenLocked(QSTileImpl.Action action) {
++        return false;
++    }
++
+     @Override
+     protected void handleClick(@Nullable View view) {
+         // Secondary clicks are header clicks, just toggle.
+diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/WorkModeTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/WorkModeTile.java
+index 7a9384a4bba4..6039da8308f1 100644
+--- a/packages/SystemUI/src/com/android/systemui/qs/tiles/WorkModeTile.java
++++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/WorkModeTile.java
+@@ -87,6 +87,11 @@ public class WorkModeTile extends QSTileImpl<BooleanState> implements
+         return new Intent(Settings.ACTION_MANAGED_PROFILE_SETTINGS);
+     }
+ 
++    @Override
++    public boolean isAllowedWhenLocked(QSTileImpl.Action action) {
++        return false;
++    }
++
+     @Override
+     public void handleClick(@Nullable View view) {
+         mProfileController.setWorkModeEnabled(!mState.value);
+-- 
+2.44.0
+
