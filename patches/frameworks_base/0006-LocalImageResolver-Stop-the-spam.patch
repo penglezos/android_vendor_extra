@@ -1,7 +1,7 @@
-From 41745d95c9ff94aead373d129886bae59fd04cf5 Mon Sep 17 00:00:00 2001
+From 19b528fbec633ea4bb5e1bb8aa55a643f993dcf4 Mon Sep 17 00:00:00 2001
 From: penglezos <panagiotisegl@gmail.com>
 Date: Sat, 17 Feb 2024 18:56:29 +0200
-Subject: [PATCH 6/8] LocalImageResolver: Stop the spam
+Subject: [PATCH 6/9] LocalImageResolver: Stop the spam
 
 Spaming in logcat:
 2514  2591 D LocalImageResolver: Couldn't use ImageDecoder for drawable, falling back to non-resized load.
