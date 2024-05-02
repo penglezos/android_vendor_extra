@@ -1,7 +1,7 @@
 From b9328ed663540a2b7bc4d6d1b4d7ead318155f28 Mon Sep 17 00:00:00 2001
 From: Adithya R <gh0strider.2k18.reborn@gmail.com>
 Date: Sun, 19 Nov 2023 09:18:30 +0100
-Subject: [PATCH 5/9] PropImitationHooks: Spoof Google Photos to Pixel XL
+Subject: [PATCH 05/11] PropImitationHooks: Spoof Google Photos to Pixel XL
 
 Change-Id: I94b3d53c1b774e8b4faf825fd71276307fe64995
 ---

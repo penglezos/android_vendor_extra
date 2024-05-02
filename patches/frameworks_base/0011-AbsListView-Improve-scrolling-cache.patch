@@ -1,0 +1,85 @@
+From bcb5b6d8e2ca219e4fe1ac676602793ecb25291c Mon Sep 17 00:00:00 2001
+From: Pawit Pornkitprasan <p.pawit@gmail.com>
+Date: Mon, 17 Nov 2014 18:59:57 +0100
+Subject: [PATCH 11/11] AbsListView: Improve scrolling cache
+
+Scrolling cache helps make short scrolls/flings smooth but will
+cause stutter when long flings are made. This patch disables
+scrolling cache when long flings are made.
+
+This patch also fixes a related bug where scrolling cache will
+not be enabled properly when transitioning from flinging to scrolling.
+
+Patch Set 2: Calculate threshold based on maximum velocity (Sang Tae Park)
+
+Change-Id: Iad52a35120212c871ffd35df6184aeb678ee44aa
+Signed-off-by: Alex Naidis <alex.naidis@linux.com>
+---
+ core/java/android/widget/AbsListView.java | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/core/java/android/widget/AbsListView.java b/core/java/android/widget/AbsListView.java
+index 1fdd1a5a5a5f..32a80e8410dd 100644
+--- a/core/java/android/widget/AbsListView.java
++++ b/core/java/android/widget/AbsListView.java
+@@ -694,6 +694,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
+     private int mMinimumVelocity;
+     @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.P, trackingBug = 124051740)
+     private int mMaximumVelocity;
++    private int mDecacheThreshold;
+     private float mVelocityScale = 1.0f;
+ 
+     final boolean[] mIsScrap = new boolean[1];
+@@ -1008,6 +1009,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
+         mVerticalScrollFactor = configuration.getScaledVerticalScrollFactor();
+         mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
+         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
++        mDecacheThreshold = mMaximumVelocity / 2;
+         mOverscrollDistance = configuration.getScaledOverscrollDistance();
+         mOverflingDistance = configuration.getScaledOverflingDistance();
+ 
+@@ -4949,7 +4951,7 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
+                     // Keep the fling alive a little longer
+                     postDelayed(this, FLYWHEEL_TIMEOUT);
+                 } else {
+-                    endFling();
++                    endFling(false); // Don't disable the scrolling cache right after it was enabled
+                     mTouchMode = TOUCH_MODE_SCROLL;
+                     reportScrollStateChange(OnScrollListener.SCROLL_STATE_TOUCH_SCROLL);
+                 }
+@@ -4969,6 +4971,11 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
+         // Use AbsListView#fling(int) instead
+         @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.P)
+         void start(int initialVelocity) {
++            if (Math.abs(initialVelocity) > mDecacheThreshold) {
++                // For long flings, scrolling cache causes stutter, so don't use it
++                clearScrollingCache();
++            }
++
+             int initialY = initialVelocity < 0 ? Integer.MAX_VALUE : 0;
+             mLastFlingY = initialY;
+             mScroller.setInterpolator(null);
+@@ -5049,6 +5056,10 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
+         // To interrupt a fling early you should use smoothScrollBy(0,0) instead
+         @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.P)
+         void endFling() {
++            endFling(true);
++        }
++
++        void endFling(boolean clearCache) {
+             mTouchMode = TOUCH_MODE_REST;
+ 
+             removeCallbacks(this);
+@@ -5057,7 +5068,8 @@ public abstract class AbsListView extends AdapterView<ListAdapter> implements Te
+             if (!mSuppressIdleStateChangeCall) {
+                 reportScrollStateChange(OnScrollListener.SCROLL_STATE_IDLE);
+             }
+-            clearScrollingCache();
++            if (clearCache)
++                clearScrollingCache();
+             mScroller.abortAnimation();
+ 
+             if (mFlingStrictSpan != null) {
+-- 
+2.44.0
+
