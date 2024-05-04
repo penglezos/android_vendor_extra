@@ -8,6 +8,10 @@
 # 	./build.sh [options]
 #
 
+# Override host metadata to make builds more reproducible and avoid leaking info
+export BUILD_USERNAME=penglezos
+export BUILD_HOSTNAME=android-build
+
 # Set defaults
 DEVICE='raphael'
 BUILD_TYPE='userdebug'
