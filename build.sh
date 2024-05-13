@@ -12,15 +12,27 @@
 export BUILD_USERNAME=penglezos
 export BUILD_HOSTNAME=android-build
 
-# Set defaults
+# Device defaults
 DEVICE='raphael'
 BUILD_TYPE='userdebug'
-ZRAM_VALUE='32'
-export CCACHE_EXEC=$(command -v ccache)
-export CCACHE_DIR=$(pwd)/.ccache
-export USE_CCACHE=1
-ccache -M 50G
 
+# Setup ccache
+ccache () {
+    export CCACHE_EXEC=$(command -v ccache)
+    export CCACHE_DIR=$(pwd)/.ccache
+    export USE_CCACHE=1
+    ccache -M 50G
+}
+
+# Setup zram
+zram () {
+    sudo swapoff --all
+    sudo bash -c "echo 64G > /sys/block/zram0/disksize"
+    sudo mkswap --label zram0 /dev/zram0
+    sudo swapon --priority 32767 /dev/zram0
+}
+
+# Clean sources
 clean () {
     source build/envsetup.sh
     source $(gettop)/vendor/lineage/vars/aosp_target_release
@@ -35,6 +47,7 @@ installclean () {
     make installclean
 }
 
+# Sync sources
 sync () {
     repo init -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs
     rm -rf .repo/local_manifests && mkdir -p .repo/local_manifests
@@ -42,13 +55,7 @@ sync () {
     repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
 }
 
-zram () {
-    sudo swapoff --all
-    sudo bash -c "echo ${ZRAM_VALUE}G > /sys/block/zram0/disksize"
-    sudo mkswap --label zram0 /dev/zram0
-    sudo swapon --priority 32767 /dev/zram0
-}
-
+# Apply patches
 patches () {
     . build/envsetup.sh
     croot
@@ -66,6 +73,7 @@ patches () {
     croot
 }
 
+# Build ROM
 build () {
     source build/envsetup.sh
     source $(gettop)/vendor/lineage/vars/aosp_target_release
@@ -73,6 +81,7 @@ build () {
     make bacon
 }
 
+# Build kernel image
 kernel () {
     source build/envsetup.sh
     source $(gettop)/vendor/lineage/vars/aosp_target_release
@@ -80,6 +89,7 @@ kernel () {
     make bootimage
 }
 
+# Build recovery image
 recovery () {
     source build/envsetup.sh
     source $(gettop)/vendor/lineage/vars/aosp_target_release
@@ -91,23 +101,25 @@ recovery () {
 if [[ $# -eq 0 ]]; then
 	echo -e "\nUsage: ./build.sh [options]\n"
 	echo "Options:"
+    echo "  -cc, --ccache                  Setup ccache"
+    echo "  -z, --zram                     Setup zram"
 	echo "  -c, --clean                    Clean entire build directory"
 	echo "  -i, --installclean             Dirty build"
-	echo "  -z, --zram                     Setup ZRAM"
 	echo "  -s, --sync                     Sync ROM and device sources"
 	echo "  -p, --patches                  Apply patches"
 	echo "  -b, --build                    Perform ROM build"
-	echo "  -k, --kernel                   Perform kernel build"
-	echo "  -r, --recovery                 Perform recovery build"
+	echo "  -k, --kernel                   Perform kernel image build"
+	echo "  -r, --recovery                 Perform recovery image build"
 	echo ""
 	exit 0
 fi
 
 # Parse arguments
 while [[ "$#" -gt 0 ]]; do case $1 in
+    -cc|--ccache) ccache;;
+    -z|--zram) zram;;
 	-c|--clean) clean;;
 	-i|--installclean) installclean;;
-    -z|--zram) zram;;
 	-s|--sync) sync;;
 	-p|--patches) patches;;
 	-b|--build) build;;
