@@ -5,6 +5,6 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- URL's for Updater -->
-    <string name="updater_server_url" translatable="false">https://raw.githubusercontent.com/penglezos/android_vendor_extra/main/ota/21.0/raphael.json</string> 
+    <string name="updater_server_url" translatable="false">https://raw.githubusercontent.com/penglezos/android_vendor_extra/main/OTA/lineage-21/raphael.json</string> 
     <string name="menu_changelog_url" translatable="false">https://github.com/penglezos/device_xiaomi_raphael/releases</string>
 </resources>
