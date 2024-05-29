@@ -2,16 +2,16 @@
 <resources>
     <!-- Build properties from a GMS certified device -->
     <string-array name="config_certifiedBuildProperties" translatable="false">
-        <item>BRAND:motorola</item> <!-- Build.BRAND -->
-        <item>MANUFACTURER:motorola</item> <!-- Build.MANUFACTURER -->
+        <item>BRAND:google</item> <!-- Build.BRAND -->
+        <item>MANUFACTURER:Google</item> <!-- Build.MANUFACTURER -->
         <item></item> <!-- Build.ID -->
-        <item>DEVICE:clark</item> <!-- Build.DEVICE -->
-        <item>PRODUCT:clark_retus</item> <!-- Build.PRODUCT -->
-        <item>MODEL:XT1575</item> <!-- Build.MODEL -->
-        <item>FINGERPRINT:motorola/clark_retus/clark:6.0/MPHS24.49-18-8/4:user/release-keys</item> <!-- Build.FINGERPRINT -->
+        <item>DEVICE:sailfish</item> <!-- Build.DEVICE -->
+        <item>PRODUCT:sailfish</item> <!-- Build.PRODUCT -->
+        <item>MODEL:Pixel</item> <!-- Build.MODEL -->
+        <item>FINGERPRINT:google/sailfish/sailfish:8.1.0/OPM1.171019.011/4448085:user/release-keys</item> <!-- Build.FINGERPRINT -->
         <item></item> <!-- Build.TYPE -->
-        <item>TAGS:MPHS24.49-18-8</item> <!-- Build.TAGS -->
-        <item>SECURITY_PATCH:2016-09-01</item> <!-- Build.SECURITY_PATCH -->
+        <item>TAGS:OPM1.171019.011</item> <!-- Build.TAGS -->
+        <item>SECURITY_PATCH:2017-12-05</item> <!-- Build.SECURITY_PATCH -->
         <item></item> <!-- Build.DEVICE_INITIAL_SDK_INT -->
     </string-array>
 </resources>
