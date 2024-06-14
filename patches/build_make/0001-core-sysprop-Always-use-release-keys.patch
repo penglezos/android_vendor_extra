@@ -1,37 +1,31 @@
-From 9fd80e1622fac19bd0cf0326f9b10040a0b4aa8b Mon Sep 17 00:00:00 2001
+From 00d8df8e88ffefc4ddd97adb24c25ab980ad4b97 Mon Sep 17 00:00:00 2001
 From: penglezos <panagiotisegl@gmail.com>
-Date: Sun, 28 Jan 2024 20:22:34 +0200
+Date: Fri, 14 Jun 2024 20:16:31 +0300
 Subject: [PATCH] core: sysprop: Always use release-keys
 
-Change-Id: If51da80826ffc3e6e7d65dfd64f92990d29ba7df
+Change-Id: I0e67f6785628466ee5cb2faad4068f7505cd7ad7
 Signed-off-by: penglezos <panagiotisegl@gmail.com>
 ---
- core/sysprop.mk | 12 ++----------
- 1 file changed, 2 insertions(+), 10 deletions(-)
+ core/sysprop.mk | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/core/sysprop.mk b/core/sysprop.mk
-index d2551aa44d..c83e885e3e 100644
+index da8cdaff5e..3df808fc2b 100644
 --- a/core/sysprop.mk
 +++ b/core/sysprop.mk
-@@ -169,16 +169,8 @@ BUILD_VERSION_TAGS := $(BUILD_VERSION_TAGS)
- ifeq ($(TARGET_BUILD_TYPE),debug)
-   BUILD_VERSION_TAGS += debug
- endif
--# The "test-keys" tag marks builds signed with the old test keys,
--# which are available in the SDK.  "dev-keys" marks builds signed with
--# non-default dev keys (usually private keys from a vendor directory).
--# Both of these tags will be removed and replaced with "release-keys"
--# when the target-files is signed in a post-build step.
+@@ -174,11 +174,7 @@ endif
+ # non-default dev keys (usually private keys from a vendor directory).
+ # Both of these tags will be removed and replaced with "release-keys"
+ # when the target-files is signed in a post-build step.
 -ifeq ($(DEFAULT_SYSTEM_DEV_CERTIFICATE),build/make/target/product/security/testkey)
 -BUILD_KEYS := test-keys
 -else
 -BUILD_KEYS := dev-keys
 -endif
-+# Hardcode BUILD_KEYS as release-keys to bypass applications detecting root
 +BUILD_KEYS := release-keys
  BUILD_VERSION_TAGS += $(BUILD_KEYS)
  BUILD_VERSION_TAGS := $(subst $(space),$(comma),$(sort $(BUILD_VERSION_TAGS)))
  
 -- 
-2.43.0
+2.45.2
 
