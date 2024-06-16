@@ -17,12 +17,10 @@ DEVICE='raphael'
 BUILD_TYPE='userdebug'
 
 # Setup ccache
-ccache () {
-    export CCACHE_EXEC=$(command -v ccache)
-    export CCACHE_DIR=$(pwd)/.ccache
-    export USE_CCACHE=1
-    ccache -M 50G
-}
+export CCACHE_EXEC=$(command -v ccache)
+export CCACHE_DIR=$(pwd)/.ccache
+export USE_CCACHE=1
+ccache -M 50G
 
 # Setup zram
 zram () {
@@ -101,7 +99,6 @@ recovery () {
 if [[ $# -eq 0 ]]; then
 	echo -e "\nUsage: ./build.sh [options]\n"
 	echo "Options:"
-    echo "  -cc, --ccache                  Setup ccache"
     echo "  -z, --zram                     Setup zram"
 	echo "  -c, --clean                    Clean entire build directory"
 	echo "  -i, --installclean             Dirty build"
@@ -116,7 +113,6 @@ fi
 
 # Parse arguments
 while [[ "$#" -gt 0 ]]; do case $1 in
-    -cc|--ccache) ccache;;
     -z|--zram) zram;;
 	-c|--clean) clean;;
 	-i|--installclean) installclean;;
