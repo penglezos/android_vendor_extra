@@ -33,15 +33,13 @@ zram () {
 # Clean sources
 clean () {
     source build/envsetup.sh
-    source $(gettop)/vendor/lineage/vars/aosp_target_release
-    lunch lineage_${DEVICE}-${aosp_target_release}-${BUILD_TYPE}
+    breakfast ${DEVICE} ${BUILD_TYPE}
     make clean && rm -rf out
 }
 
 installclean () {
     source build/envsetup.sh
-    source $(gettop)/vendor/lineage/vars/aosp_target_release
-    lunch lineage_${DEVICE}-${aosp_target_release}-${BUILD_TYPE}
+    breakfast ${DEVICE} ${BUILD_TYPE}
     make installclean
 }
 
@@ -74,24 +72,21 @@ patches () {
 # Build ROM
 build () {
     source build/envsetup.sh
-    source $(gettop)/vendor/lineage/vars/aosp_target_release
-    lunch lineage_${DEVICE}-${aosp_target_release}-${BUILD_TYPE}
+    breakfast ${DEVICE} ${BUILD_TYPE}
     make bacon
 }
 
 # Build kernel image
 kernel () {
     source build/envsetup.sh
-    source $(gettop)/vendor/lineage/vars/aosp_target_release
-    lunch lineage_${DEVICE}-${aosp_target_release}-${BUILD_TYPE}
+    breakfast ${DEVICE} ${BUILD_TYPE}
     make bootimage
 }
 
 # Build recovery image
 recovery () {
     source build/envsetup.sh
-    source $(gettop)/vendor/lineage/vars/aosp_target_release
-    lunch lineage_${DEVICE}-${aosp_target_release}-${BUILD_TYPE}
+    breakfast ${DEVICE} ${BUILD_TYPE}
     make recoveryimage
 }
 
