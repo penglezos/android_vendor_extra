@@ -1,4 +1,4 @@
-From 9091d9b289fd4ddf938661fdfe5fd691a49af1de Mon Sep 17 00:00:00 2001
+From 25c6bfea5792a894586bd70a49c6998d876a1a2d Mon Sep 17 00:00:00 2001
 From: Adithya R <gh0strider.2k18.reborn@gmail.com>
 Date: Sat, 2 Dec 2023 23:43:18 +0530
 Subject: [PATCH 03/11] PIHooks: Get resources from context
@@ -58,5 +58,5 @@ index 0d8b493da740..595afacb9457 100644
          sIsGms = packageName.equals(PACKAGE_GMS) && processName.equals(PROCESS_GMS_UNSTABLE);
          sIsFinsky = packageName.equals(PACKAGE_FINSKY);
 -- 
-2.44.0
+2.45.2
 

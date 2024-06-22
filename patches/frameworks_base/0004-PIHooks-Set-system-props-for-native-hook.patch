@@ -1,4 +1,4 @@
-From 46b4ece0d7eaace996f78293f8f17e55938c80d1 Mon Sep 17 00:00:00 2001
+From f571334715c9a3a3c89e62cc63869b8125c0f541 Mon Sep 17 00:00:00 2001
 From: Adithya R <gh0strider.2k18.reborn@gmail.com>
 Date: Fri, 8 Dec 2023 05:59:39 +0530
 Subject: [PATCH 04/11] PIHooks: Set system props for native hook
@@ -53,5 +53,5 @@ index 595afacb9457..848c15013ac9 100644
  
      private static boolean isGmsAddAccountActivityOnTop() {
 -- 
-2.44.0
+2.45.2
 

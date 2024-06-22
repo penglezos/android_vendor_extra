@@ -1,7 +1,7 @@
-From d3af9164652b789b490257864582b76e404b9ad6 Mon Sep 17 00:00:00 2001
+From ccfa91a8d4768db0ced2e01e8a998f5dff38ef17 Mon Sep 17 00:00:00 2001
 From: Rishawn <70256146+Stealth1226@users.noreply.github.com>
 Date: Mon, 10 Jan 2022 09:47:15 +0530
-Subject: [PATCH 09/11] SystemUI: Allow disabling ripple effect on unlock [1/2]
+Subject: [PATCH 11/11] SystemUI: Allow disabling ripple effect on unlock [1/2]
 
 Squashed:
 
@@ -55,10 +55,10 @@ Signed-off-by: penglezos <panagiotisegl@gmail.com>
  5 files changed, 43 insertions(+), 2 deletions(-)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 64e39f5001f0..afba299c9765 100644
+index 783483d8e491..6dd519f61a6e 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -6086,6 +6086,12 @@ public final class Settings {
+@@ -6217,6 +6217,12 @@ public final class Settings {
          @Readable
          public static final String VOLUME_KEY_CURSOR_CONTROL = "volume_key_cursor_control";
  
@@ -72,7 +72,7 @@ index 64e39f5001f0..afba299c9765 100644
           * IMPORTANT: If you add a new public settings you also have to add it to
           * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
 diff --git a/packages/SystemUI/src/com/android/systemui/biometrics/AuthRippleController.kt b/packages/SystemUI/src/com/android/systemui/biometrics/AuthRippleController.kt
-index 634531215002..bedfd4ca7332 100644
+index d2c62272e2ec..911095d8fc7f 100644
 --- a/packages/SystemUI/src/com/android/systemui/biometrics/AuthRippleController.kt
 +++ b/packages/SystemUI/src/com/android/systemui/biometrics/AuthRippleController.kt
 @@ -23,6 +23,8 @@ import android.content.Context
@@ -83,8 +83,8 @@ index 634531215002..bedfd4ca7332 100644
 +import android.provider.Settings
  import android.util.DisplayMetrics
  import androidx.annotation.VisibleForTesting
- import com.android.app.animation.Interpolators
-@@ -96,6 +98,10 @@ class AuthRippleController @Inject constructor(
+ import androidx.lifecycle.repeatOnLifecycle
+@@ -102,6 +104,10 @@ class AuthRippleController @Inject constructor(
      private var udfpsController: UdfpsController? = null
      private var udfpsRadius: Float = -1f
  
@@ -95,7 +95,7 @@ index 634531215002..bedfd4ca7332 100644
      override fun start() {
          init()
      }
-@@ -187,6 +193,8 @@ class AuthRippleController @Inject constructor(
+@@ -218,6 +224,8 @@ class AuthRippleController @Inject constructor(
      }
  
      private fun showUnlockedRipple() {
@@ -104,7 +104,7 @@ index 634531215002..bedfd4ca7332 100644
          notificationShadeWindowController.setForcePluginOpen(true, this)
  
          // This code path is not used if the KeyguardTransitionRepository is managing the light
-@@ -214,6 +222,14 @@ class AuthRippleController @Inject constructor(
+@@ -245,6 +253,14 @@ class AuthRippleController @Inject constructor(
              return
          }
  
@@ -120,7 +120,7 @@ index 634531215002..bedfd4ca7332 100644
              if (startLightRevealScrimOnKeyguardFadingAway) {
                  lightRevealScrimAnimator?.cancel()
 diff --git a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardUnlockAnimationController.kt b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardUnlockAnimationController.kt
-index 01ba0d214a97..ab7d4f8d2494 100644
+index 53c81e537708..01e9c4c32b3c 100644
 --- a/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardUnlockAnimationController.kt
 +++ b/packages/SystemUI/src/com/android/systemui/keyguard/KeyguardUnlockAnimationController.kt
 @@ -27,6 +27,8 @@ import android.os.DeadObjectException
@@ -188,10 +188,10 @@ index 5c45f3d1bbc8..39d539431bdc 100644
              }
  
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java
-index 73b95114b005..4f30f07906c9 100644
+index 18e95781a32c..6370245cad34 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/CentralSurfacesImpl.java
-@@ -2836,6 +2836,11 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
+@@ -2845,6 +2845,11 @@ public class CentralSurfacesImpl implements CoreStartable, CentralSurfaces {
  
          mScrimController.setExpansionAffectsAlpha(!unlocking);
  
@@ -204,5 +204,5 @@ index 73b95114b005..4f30f07906c9 100644
              if (!DeviceEntryUdfpsRefactor.isEnabled()) {
                  if ((!mKeyguardStateController.isOccluded() || mShadeSurface.isPanelExpanded())
 -- 
-2.44.0
+2.45.2
 

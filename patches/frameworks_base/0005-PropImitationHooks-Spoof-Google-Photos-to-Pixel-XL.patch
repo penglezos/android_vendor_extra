@@ -1,4 +1,4 @@
-From b9328ed663540a2b7bc4d6d1b4d7ead318155f28 Mon Sep 17 00:00:00 2001
+From a70f6ac3461c9b4560d06fef99f7dcc26cf7220e Mon Sep 17 00:00:00 2001
 From: Adithya R <gh0strider.2k18.reborn@gmail.com>
 Date: Sun, 19 Nov 2023 09:18:30 +0100
 Subject: [PATCH 05/11] PropImitationHooks: Spoof Google Photos to Pixel XL
@@ -10,10 +10,10 @@ Change-Id: I94b3d53c1b774e8b4faf825fd71276307fe64995
  2 files changed, 44 insertions(+), 1 deletion(-)
 
 diff --git a/core/java/android/app/ApplicationPackageManager.java b/core/java/android/app/ApplicationPackageManager.java
-index d1694013ae52..01446ba12f0e 100644
+index 4950c0fdbaf8..2e605ecf9734 100644
 --- a/core/java/android/app/ApplicationPackageManager.java
 +++ b/core/java/android/app/ApplicationPackageManager.java
-@@ -125,6 +125,7 @@ import com.android.internal.annotations.GuardedBy;
+@@ -126,6 +126,7 @@ import com.android.internal.annotations.GuardedBy;
  import com.android.internal.annotations.Immutable;
  import com.android.internal.annotations.VisibleForTesting;
  import com.android.internal.os.SomeArgs;
@@ -21,7 +21,7 @@ index d1694013ae52..01446ba12f0e 100644
  import com.android.internal.util.UserIcons;
  
  import com.nvidia.NvAppProfileService;
-@@ -832,7 +833,8 @@ public class ApplicationPackageManager extends PackageManager {
+@@ -834,7 +835,8 @@ public class ApplicationPackageManager extends PackageManager {
  
      @Override
      public boolean hasSystemFeature(String name, int version) {
@@ -112,5 +112,5 @@ index 848c15013ac9..da1e226a5ada 100644
          if (DEBUG) Log.d(TAG, "[" + sProcessName + "] " + msg);
      }
 -- 
-2.44.0
+2.45.2
 

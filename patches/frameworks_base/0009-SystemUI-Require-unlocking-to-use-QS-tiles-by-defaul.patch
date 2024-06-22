@@ -1,24 +1,24 @@
-From 022a6db4aaa262231e9f91f26ef2980bda3a85cb Mon Sep 17 00:00:00 2001
+From f28e8e25afecb641d03683bb96ab4e089996eef3 Mon Sep 17 00:00:00 2001
 From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
 Date: Mon, 11 Mar 2024 19:40:18 +0200
-Subject: [PATCH 07/11] SystemUI: Require unlocking to use QS tiles
+Subject: [PATCH 09/11] SystemUI: Require unlocking to use QS tiles by default
 
 penglezos: Reverse isAllowedWhenLocked logic
-
-Change-Id: I7fabd5daa0908c5bfb67bee0b219808a8789179a
+Change-Id: Iaaa10f4f08783c5b6376a1d778a8a5bc25eeef7e
 Signed-off-by: penglezos <panagiotisegl@gmail.com>
 ---
  .../src/com/android/systemui/qs/QSHost.java   |  1 +
  .../com/android/systemui/qs/QSHostAdapter.kt  |  2 ++
  .../com/android/systemui/qs/QSTileHost.java   |  9 +++++
  .../systemui/qs/tileimpl/QSTileImpl.java      | 36 +++++++++++++++++--
- 4 files changed, 45 insertions(+), 3 deletions(-)
+ .../android/systemui/qs/QSTileHostTest.java   |  7 +++-
+ 5 files changed, 51 insertions(+), 4 deletions(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/QSHost.java b/packages/SystemUI/src/com/android/systemui/qs/QSHost.java
-index 919b99604fd5..3b73cb8bf7a3 100644
+index ba3357c8b591..57c6966da8ab 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/QSHost.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/QSHost.java
-@@ -55,6 +55,7 @@ public interface QSHost {
+@@ -49,6 +49,7 @@ public interface QSHost {
      Context getUserContext();
      int getUserId();
      Collection<QSTile> getTiles();
@@ -88,7 +88,7 @@ index cc370ff50c52..6cbef8241a48 100644
      public Collection<QSTile> getTiles() {
          return mTiles.values();
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSTileImpl.java b/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSTileImpl.java
-index 529d68407ce9..0f1e236ab8b1 100644
+index 35cac4b2adb2..85bb82671265 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSTileImpl.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tileimpl/QSTileImpl.java
 @@ -68,6 +68,7 @@ import com.android.systemui.qs.QSHost;
@@ -98,8 +98,8 @@ index 529d68407ce9..0f1e236ab8b1 100644
 +import com.android.systemui.statusbar.policy.KeyguardStateController;
  
  import java.io.PrintWriter;
- import java.util.ArrayList;
-@@ -269,6 +270,32 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
+ 
+@@ -268,6 +269,32 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
          return true;
      }
  
@@ -132,7 +132,7 @@ index 529d68407ce9..0f1e236ab8b1 100644
      // safe to call from any thread
  
      public void addCallback(Callback callback) {
-@@ -592,16 +619,19 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
+@@ -591,16 +618,19 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
                          mActivityStarter.postStartActivityDismissingKeyguard(intent, 0);
                      } else {
                          mQSLogger.logHandleClick(mTileSpec, msg.arg1);
@@ -155,6 +155,52 @@ index 529d68407ce9..0f1e236ab8b1 100644
                  } else if (msg.what == REFRESH_STATE) {
                      name = "handleRefreshState";
                      handleRefreshState(msg.obj);
+diff --git a/packages/SystemUI/tests/src/com/android/systemui/qs/QSTileHostTest.java b/packages/SystemUI/tests/src/com/android/systemui/qs/QSTileHostTest.java
+index b93ab47a3481..9fdcad6be55e 100644
+--- a/packages/SystemUI/tests/src/com/android/systemui/qs/QSTileHostTest.java
++++ b/packages/SystemUI/tests/src/com/android/systemui/qs/QSTileHostTest.java
+@@ -72,6 +72,7 @@ import com.android.systemui.settings.UserFileManager;
+ import com.android.systemui.settings.UserTracker;
+ import com.android.systemui.shade.ShadeController;
+ import com.android.systemui.statusbar.phone.AutoTileManager;
++import com.android.systemui.statusbar.policy.KeyguardStateController;
+ import com.android.systemui.tuner.TunerService;
+ import com.android.systemui.util.FakeSharedPreferences;
+ import com.android.systemui.util.concurrency.FakeExecutor;
+@@ -126,6 +127,8 @@ public class QSTileHostTest extends SysuiTestCase {
+     private TileLifecycleManager mTileLifecycleManager;
+     @Mock
+     private UserFileManager mUserFileManager;
++    @Mock
++    private KeyguardStateController mKeyguardStateController;
+ 
+     private SecureSettings mSecureSettings;
+ 
+@@ -170,6 +173,7 @@ public class QSTileHostTest extends SysuiTestCase {
+         saveSetting("");
+         setUpTileFactory();
+         mQSTileHost = new TestQSTileHost(mContext, () -> null, mDefaultFactory, mMainExecutor,
++                mKeyguardStateController,
+                 mPluginManager, mTunerService, () -> mAutoTiles, mShadeController,
+                 mQSLogger, mUserTracker, mSecureSettings, mCustomTileStatePersister,
+                 mTileLifecycleManagerFactory, mUserFileManager, mQSPipelineFlagsRepository);
+@@ -643,6 +647,7 @@ public class QSTileHostTest extends SysuiTestCase {
+     private class TestQSTileHost extends QSTileHost {
+         TestQSTileHost(Context context, Lazy<NewQSTileFactory> newQSTileFactoryProvider,
+                 QSFactory defaultFactory, Executor mainExecutor,
++                KeyguardStateController keyguardStateController,
+                 PluginManager pluginManager, TunerService tunerService,
+                 Provider<AutoTileManager> autoTiles,
+                 ShadeController shadeController, QSLogger qsLogger,
+@@ -650,7 +655,7 @@ public class QSTileHostTest extends SysuiTestCase {
+                 CustomTileStatePersister customTileStatePersister,
+                 TileLifecycleManager.Factory tileLifecycleManagerFactory,
+                 UserFileManager userFileManager, QSPipelineFlagsRepository featureFlags) {
+-            super(context, newQSTileFactoryProvider, defaultFactory, mainExecutor, pluginManager,
++            super(context, newQSTileFactoryProvider, defaultFactory, mainExecutor, keyguardStateController, pluginManager,
+                     tunerService, autoTiles, shadeController, qsLogger,
+                     userTracker, secureSettings, customTileStatePersister,
+                     tileLifecycleManagerFactory, userFileManager, featureFlags);
 -- 
-2.44.0
+2.45.2
 

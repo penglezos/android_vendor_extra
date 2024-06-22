@@ -1,7 +1,7 @@
-From 2c6d6cf1fc3d01844cd8de5178e26935d23595b8 Mon Sep 17 00:00:00 2001
+From ad85dfc0bb43349d9af8e057ccc55714089a75df Mon Sep 17 00:00:00 2001
 From: Alex Naidis <alex.naidis@linux.com>
 Date: Thu, 16 Mar 2017 14:59:53 +0100
-Subject: [PATCH 10/11] ViewConfiguration: Set scroll friction to 0.009
+Subject: [PATCH 07/11] ViewConfiguration: Set scroll friction to 0.009
 
 Reduce scroll friction to a better default
 value which is used in Scroller and Overscroller.
@@ -27,5 +27,5 @@ index fb2b8b9c280c..dfb621c6d2a4 100644
      /**
       * Max distance in dips to overscroll for edge effects
 -- 
-2.44.0
+2.45.2
 

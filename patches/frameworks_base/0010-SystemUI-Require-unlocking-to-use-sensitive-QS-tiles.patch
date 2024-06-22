@@ -1,7 +1,7 @@
-From b5dceb601f736365ad33c3334ec2571827ece6b8 Mon Sep 17 00:00:00 2001
+From 91107c4854342a302bfbf481c53b7585f1323627 Mon Sep 17 00:00:00 2001
 From: penglezos <panagiotisegl@gmail.com>
-Date: Tue, 23 Apr 2024 19:59:57 +0300
-Subject: [PATCH 08/11] SystemUI: Require unlocking to use sensitive QS tiles
+Date: Sat, 22 Jun 2024 14:33:55 +0300
+Subject: [PATCH 10/11] SystemUI: Require unlocking to use sensitive QS tiles
 
 Mark the following tiles as sensitive and require screen unlock to use them:
 
@@ -18,7 +18,7 @@ Mark the following tiles as sensitive and require screen unlock to use them:
 - Wifi
 - Work mode
 
-Change-Id: I13fe5d2d85a2cb98ef4bec0b25073439ec18eeda
+Change-Id: I27106e3eb8b4fb595a9a7c48d91b166a2d447c67
 Signed-off-by: penglezos <panagiotisegl@gmail.com>
 ---
  .../src/com/android/systemui/qs/tiles/AirplaneModeTile.java | 5 +++++
@@ -101,10 +101,10 @@ index b7bd55d03467..926df811311e 100644
      protected void handleClick(@Nullable View view) {
          if (getState().state == Tile.STATE_UNAVAILABLE) {
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/DataSaverTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/DataSaverTile.java
-index ccf7afbe7016..32158f35811c 100644
+index 58630a0b6b99..21bfdc329212 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/DataSaverTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/DataSaverTile.java
-@@ -86,6 +86,12 @@ public class DataSaverTile extends QSTileImpl<BooleanState> implements
+@@ -89,6 +89,12 @@ public class DataSaverTile extends QSTileImpl<BooleanState> implements
      public Intent getLongClickIntent() {
          return new Intent(Settings.ACTION_DATA_SAVER_SETTINGS);
      }
@@ -118,7 +118,7 @@ index ccf7afbe7016..32158f35811c 100644
      protected void handleClick(@Nullable View view) {
          if (mState.value
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/DeviceControlsTile.kt b/packages/SystemUI/src/com/android/systemui/qs/tiles/DeviceControlsTile.kt
-index 91b2d971c004..eb2ab8d8bf30 100644
+index bb175e2a8534..e0684e4d4384 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/DeviceControlsTile.kt
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/DeviceControlsTile.kt
 @@ -100,6 +100,8 @@ class DeviceControlsTile @Inject constructor(
@@ -131,7 +131,7 @@ index 91b2d971c004..eb2ab8d8bf30 100644
          if (state.state == Tile.STATE_UNAVAILABLE) {
              return
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java
-index f6518d1e8023..bac88b6f94a4 100644
+index f62b60bd887f..149df895cfdd 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/DndTile.java
 @@ -146,6 +146,11 @@ public class DndTile extends QSTileImpl<BooleanState> {
@@ -163,7 +163,7 @@ index 9ee417e98d2d..267184b96063 100644
      protected void handleClick(@Nullable View view) {
          final boolean isEnabled = mState.value;
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTile.java
-index 8bc836bb4323..675c553c45c1 100644
+index 6dbfcfc0fbff..398c719a4bda 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTile.java
 @@ -123,6 +123,11 @@ public class InternetTile extends QSTileImpl<QSTile.BooleanState> {
@@ -177,9 +177,9 @@ index 8bc836bb4323..675c553c45c1 100644
 +
      @Override
      protected void handleClick(@Nullable View view) {
-         mHandler.post(() -> mInternetDialogFactory.create(true,
+         mHandler.post(() -> mInternetDialogManager.create(true,
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTileNewImpl.kt b/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTileNewImpl.kt
-index 13271c32c52f..f914ea1c43f1 100644
+index 357743bc2bd7..bfd7abaa9cca 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTileNewImpl.kt
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/InternetTileNewImpl.kt
 @@ -84,6 +84,8 @@ constructor(
@@ -190,9 +190,9 @@ index 13271c32c52f..f914ea1c43f1 100644
 +
      override fun handleClick(view: View?) {
          mainHandler.post {
-             internetDialogFactory.create(
+             internetDialogManager.create(
 diff --git a/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java b/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java
-index e8a9a395bb82..b4cfedd4acf8 100644
+index 6c449fa47fb0..42fba39182f3 100644
 --- a/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java
 +++ b/packages/SystemUI/src/com/android/systemui/qs/tiles/NfcTile.java
 @@ -119,6 +119,11 @@ public class NfcTile extends QSTileImpl<BooleanState> {
@@ -240,5 +240,5 @@ index 7a9384a4bba4..6039da8308f1 100644
      public void handleClick(@Nullable View view) {
          mProfileController.setWorkModeEnabled(!mState.value);
 -- 
-2.44.0
+2.45.2
 
