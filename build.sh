@@ -25,9 +25,10 @@ ccache -M 50G
 # Setup zram
 zram () {
     sudo swapoff --all
-    sudo bash -c "echo 64G > /sys/block/zram0/disksize"
-    sudo mkswap --label zram0 /dev/zram0
-    sudo swapon --priority 32767 /dev/zram0
+    sudo modprobe zram
+    sudo zramctl /dev/zram0 --algorithm zstd --size 64G
+    sudo mkswap -U clear /dev/zram0
+    sudo swapon --priority 100 /dev/zram0
 }
 
 # Clean sources
