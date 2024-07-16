@@ -1,7 +1,7 @@
-From 91107c4854342a302bfbf481c53b7585f1323627 Mon Sep 17 00:00:00 2001
+From 3e71e16528468d0c6a5ccd134b354b1f45af73ed Mon Sep 17 00:00:00 2001
 From: penglezos <panagiotisegl@gmail.com>
 Date: Sat, 22 Jun 2024 14:33:55 +0300
-Subject: [PATCH 10/11] SystemUI: Require unlocking to use sensitive QS tiles
+Subject: [PATCH 10/12] SystemUI: Require unlocking to use sensitive QS tiles
 
 Mark the following tiles as sensitive and require screen unlock to use them:
 
