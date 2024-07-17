@@ -41,8 +41,23 @@ response=$(jq -n --arg datetime $TIMESTAMP \
         '$ARGS.named'
 )
 wrapped_response=$(jq -n --argjson response "[$response]" '$ARGS.named')
-
 echo "$wrapped_response" > ../OTA/$VERSION/$DEVICE.json
-git add ../OTA/$VERSION/$DEVICE.json
-git commit -m "Update json file for $DEVICE-$VERSION-${DATE}"
-git push -f
+
+while true; do
+    read -p "Do you want to proceed? (yes/no) " yn
+    case $yn in 
+        yes|y ) 
+        git add ../OTA/$VERSION/$DEVICE.json
+        git commit -m "Update json file for $DEVICE-$VERSION-${DATE}"
+        git push -f
+        echo Updated .json file is uploaded successfully!
+        break;;
+
+	    no|n ) 
+        echo .json file is generated but NOT uploaded.;
+		exit;;
+
+	    * ) 
+        echo Invalid response;;
+    esac
+done
