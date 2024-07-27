@@ -8,10 +8,10 @@
         <item>DEVICE:husky</item> <!-- Build.DEVICE -->
         <item>PRODUCT:husky_beta</item> <!-- Build.PRODUCT -->
         <item>MODEL:Pixel 8 Pro</item> <!-- Build.MODEL -->
-        <item>FINGERPRINT:google/husky_beta/husky:15/AP31.240517.022/11948202:user/release-keys</item> <!-- Build.FINGERPRINT -->
+        <item>FINGERPRINT:google/husky_beta/husky:15/AP31.240617.009/12094726:user/release-keys</item> <!-- Build.FINGERPRINT -->
         <item></item> <!-- Build.TYPE -->
-        <item>TAGS:AP31.240517.022</item> <!-- Build.TAGS -->
-        <item>SECURITY_PATCH:2024-06-05</item> <!-- Build.SECURITY_PATCH -->
+        <item>TAGS:AP31.240617.009</item> <!-- Build.TAGS -->
+        <item>SECURITY_PATCH:2024-07-05</item> <!-- Build.SECURITY_PATCH -->
         <item></item> <!-- Build.DEVICE_INITIAL_SDK_INT -->
     </string-array>
 </resources>
