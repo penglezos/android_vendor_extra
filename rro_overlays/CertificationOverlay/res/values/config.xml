@@ -5,10 +5,10 @@
         <item>BRAND:google</item> <!-- Build.BRAND -->
         <item>MANUFACTURER:Google</item> <!-- Build.MANUFACTURER -->
         <item></item> <!-- Build.ID -->
-        <item>DEVICE:husky</item> <!-- Build.DEVICE -->
-        <item>PRODUCT:husky_beta</item> <!-- Build.PRODUCT -->
-        <item>MODEL:Pixel 8 Pro</item> <!-- Build.MODEL -->
-        <item>FINGERPRINT:google/husky_beta/husky:15/AP31.240617.015/12207491:user/release-keys</item> <!-- Build.FINGERPRINT -->
+        <item>DEVICE:akita</item> <!-- Build.DEVICE -->
+        <item>PRODUCT:akita_beta</item> <!-- Build.PRODUCT -->
+        <item>MODEL:Pixel 8a</item> <!-- Build.MODEL -->
+        <item>FINGERPRINT:google/akita_beta/akita:15/AP31.240617.015/12207491:user/release-keys</item> <!-- Build.FINGERPRINT -->
         <item></item> <!-- Build.TYPE -->
         <item>TAGS:AP31.240617.015</item> <!-- Build.TAGS -->
         <item>SECURITY_PATCH:2024-08-05</item> <!-- Build.SECURITY_PATCH -->
