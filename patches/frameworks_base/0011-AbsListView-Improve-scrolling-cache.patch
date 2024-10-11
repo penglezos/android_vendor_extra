@@ -1,7 +1,7 @@
-From 89de5440fcdeeb13b2f0bef26f7cef42d1e96da1 Mon Sep 17 00:00:00 2001
+From e36650d3f6fd40c2f5d392807156446ece8ff92a Mon Sep 17 00:00:00 2001
 From: Pawit Pornkitprasan <p.pawit@gmail.com>
 Date: Mon, 17 Nov 2014 18:59:57 +0100
-Subject: [PATCH 08/12] AbsListView: Improve scrolling cache
+Subject: [PATCH 11/15] AbsListView: Improve scrolling cache
 
 Scrolling cache helps make short scrolls/flings smooth but will
 cause stutter when long flings are made. This patch disables
@@ -81,5 +81,5 @@ index f54ef3868f53..770841da1140 100644
  
              if (mFlingStrictSpan != null) {
 -- 
-2.45.2
+2.46.2
 
