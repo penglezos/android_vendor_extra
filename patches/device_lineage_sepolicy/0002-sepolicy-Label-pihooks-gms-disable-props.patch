@@ -1,0 +1,59 @@
+From f5119329125c9fd860f4cd1563baad64f2da74c6 Mon Sep 17 00:00:00 2001
+From: penglezos <panagiotisegl@gmail.com>
+Date: Fri, 11 Oct 2024 20:05:31 +0300
+Subject: [PATCH 2/2] sepolicy: Label pihooks gms disable props
+
+Change-Id: I49fac5a71f5632146205ad8e21d9bc053695520a
+Signed-off-by: penglezos <panagiotisegl@gmail.com>
+---
+ common/private/appdomain.te      | 1 +
+ common/private/property.te       | 3 +++
+ common/private/property_contexts | 3 +++
+ common/private/shell.te          | 2 ++
+ 4 files changed, 9 insertions(+)
+ create mode 100644 common/private/shell.te
+
+diff --git a/common/private/appdomain.te b/common/private/appdomain.te
+index 72760a6..9bddca0 100644
+--- a/common/private/appdomain.te
++++ b/common/private/appdomain.te
+@@ -1 +1,2 @@
+ get_prop(appdomain, vendor_persist_camera_prop)
++get_prop(appdomain, pih_disable_prop)
+\ No newline at end of file
+diff --git a/common/private/property.te b/common/private/property.te
+index 4965d4d..e0b9023 100644
+--- a/common/private/property.te
++++ b/common/private/property.te
+@@ -1,2 +1,5 @@
++# PIHooks
++system_public_prop(pih_disable_prop)
++
+ # Recovery update
+ system_internal_prop(recovery_update_prop)
+diff --git a/common/private/property_contexts b/common/private/property_contexts
+index fc67ab5..72648ec 100644
+--- a/common/private/property_contexts
++++ b/common/private/property_contexts
+@@ -5,6 +5,9 @@ vendor.camera.aux.packagelist          u:object_r:vendor_persist_camera_prop:s0
+ # Bluetooth
+ bluetooth.hci.disabled_commands        u:object_r:bluetooth_config_prop:s0
+ 
++# PIHooks
++persist.sys.pihooks.disable.            u:object_r:pih_disable_prop:s0
++
+ # Radio
+ ro.telephony.use_old_mnc_mcc_format    u:object_r:telephony_config_prop:s0
+ 
+diff --git a/common/private/shell.te b/common/private/shell.te
+new file mode 100644
+index 0000000..5582e4c
+--- /dev/null
++++ b/common/private/shell.te
+@@ -0,0 +1,2 @@
++# Allow shell to disable PIHooks
++set_prop(shell, pih_disable_prop)
+\ No newline at end of file
+-- 
+2.46.2
+

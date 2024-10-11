@@ -1,7 +1,7 @@
-From cb3e42999dce227b9b218e4736d18509ed1be313 Mon Sep 17 00:00:00 2001
+From 8a2e3e3ed606a5281cbcddf0f0d4aad60f9eef77 Mon Sep 17 00:00:00 2001
 From: Adithya R <gh0strider.2k18.reborn@gmail.com>
 Date: Fri, 8 Dec 2023 06:03:09 +0530
-Subject: [PATCH] sepolicy: Allow gmscore_app to set system_prop
+Subject: [PATCH 1/2] sepolicy: Allow gmscore_app to set system_prop
 
 Required to set spoofing properties for native PIHooks.
 
@@ -19,5 +19,5 @@ index 0000000..3d2a68c
 @@ -0,0 +1 @@
 +set_prop(gmscore_app, system_prop)
 -- 
-2.43.1
+2.46.2
 
