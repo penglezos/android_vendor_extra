@@ -1,7 +1,7 @@
 From 7f128168879749554062fbdcc835cdeac4c76032 Mon Sep 17 00:00:00 2001
 From: Jyotiraditya Panda <jyotiraditya@aospa.co>
 Date: Wed, 7 Aug 2024 21:35:48 +0530
-Subject: [PATCH 06/15] PropImitationHooks: Allow user to disable prop
+Subject: [PATCH 06/16] PropImitationHooks: Allow user to disable prop
  imitation
 
  - Prevents spoofing props, bypassing task perms and blocking key attestation for GMS.

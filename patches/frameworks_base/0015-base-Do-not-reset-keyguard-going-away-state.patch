@@ -1,7 +1,7 @@
 From 1ed127592123656d06fcbc310a7e38525a0e6c14 Mon Sep 17 00:00:00 2001
 From: minaripenguin <minaripenguin@users.noreply.github.com>
 Date: Sun, 25 Dec 2022 01:29:33 +0800
-Subject: [PATCH 15/15] base: Do not reset keyguard going away state
+Subject: [PATCH 15/16] base: Do not reset keyguard going away state
 
 - Fixes the flicker on turning of the screen when udfps is enabled
 

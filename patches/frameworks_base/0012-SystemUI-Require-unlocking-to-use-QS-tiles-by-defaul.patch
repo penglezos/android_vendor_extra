@@ -1,7 +1,7 @@
 From 9766b3a275ee5d43fe50eb9632f15f0d45fd6f93 Mon Sep 17 00:00:00 2001
 From: Dmitry Muhomor <muhomor.dmitry@gmail.com>
 Date: Mon, 11 Mar 2024 19:40:18 +0200
-Subject: [PATCH 12/15] SystemUI: Require unlocking to use QS tiles by default
+Subject: [PATCH 12/16] SystemUI: Require unlocking to use QS tiles by default
 
 penglezos: Reverse isAllowedWhenLocked logic
 Change-Id: Iaaa10f4f08783c5b6376a1d778a8a5bc25eeef7e

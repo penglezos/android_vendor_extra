@@ -1,0 +1,77 @@
+From 12d6aa0a00a9a48e0b8852de0e65977e63866e70 Mon Sep 17 00:00:00 2001
+From: penglezos <panagiotisegl@gmail.com>
+Date: Fri, 11 Oct 2024 20:11:36 +0300
+Subject: [PATCH 16/16] udfps: Disable ExtraDim on keyguard
+
+Change-Id: I28cac078bc31dceb27ad63118b4a7f91898c4011
+Signed-off-by: penglezos <panagiotisegl@gmail.com>
+---
+ .../systemui/biometrics/UdfpsController.java  | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsController.java b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsController.java
+index 48ecbe29e8a6..7f510a69a0d7 100644
+--- a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsController.java
++++ b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsController.java
+@@ -35,6 +35,7 @@ import android.content.IntentFilter;
+ import android.graphics.Rect;
+ import android.hardware.biometrics.BiometricFingerprintConstants;
+ import android.hardware.biometrics.SensorProperties;
++import android.hardware.display.ColorDisplayManager;
+ import android.hardware.display.DisplayManager;
+ import android.hardware.fingerprint.FingerprintManager;
+ import android.hardware.fingerprint.FingerprintSensorProperties;
+@@ -222,6 +223,9 @@ public class UdfpsController implements DozeReceiver, Dumpable {
+     private boolean mAttemptedToDismissKeyguard;
+     private final Set<Callback> mCallbacks = new HashSet<>();
+ 
++    private final ColorDisplayManager mColorDisplayManager;
++    private boolean mExtraDimEnabled;
++
+     private boolean mUseFrameworkDimming;
+     private int[][] mBrightnessAlphaArray;
+ 
+@@ -272,6 +276,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
+         @Override
+         public void showUdfpsOverlay(long requestId, int sensorId, int reason,
+                 @NonNull IUdfpsOverlayControllerCallback callback) {
++            disableExtraDim();
+             mFgExecutor.execute(() -> UdfpsController.this.showUdfpsOverlay(
+                     new UdfpsControllerOverlay(
+                         mContext,
+@@ -313,6 +318,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
+ 
+         @Override
+         public void hideUdfpsOverlay(int sensorId) {
++            setExtraDim();
+             mFgExecutor.execute(() -> {
+                 if (mKeyguardUpdateMonitor.isFingerprintDetectionRunning()) {
+                     // if we get here, we expect keyguardUpdateMonitor's fingerprintRunningState
+@@ -719,6 +725,7 @@ public class UdfpsController implements DozeReceiver, Dumpable {
+         mSystemClock = systemClock;
+         mUnlockedScreenOffAnimationController = unlockedScreenOffAnimationController;
+         mLatencyTracker = latencyTracker;
++        mColorDisplayManager = context.getSystemService(ColorDisplayManager.class);
+         mActivityTransitionAnimator = activityTransitionAnimator;
+         mSensorProps = new FingerprintSensorPropertiesInternal(
+                 -1 /* sensorId */,
+@@ -1210,4 +1217,16 @@ public class UdfpsController implements DozeReceiver, Dumpable {
+          */
+         void onFingerDown();
+     }
++
++    public void disableExtraDim() {
++        mExtraDimEnabled = mColorDisplayManager.isReduceBrightColorsActivated();
++        if (mExtraDimEnabled) {
++            mColorDisplayManager.setReduceBrightColorsActivated(false);
++        }
++    }
++    public void setExtraDim() {
++        if (mExtraDimEnabled) {
++            mColorDisplayManager.setReduceBrightColorsActivated(true);
++        }
++    }
+ }
+-- 
+2.46.2
+
